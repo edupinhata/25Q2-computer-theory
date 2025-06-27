@@ -2,5 +2,5 @@
 Repository with programs developed in the 2025 2nd quarter course Computer Theory in UFABC, Brazil.
 
 # Members
-@edupinhata
-@drsigma
+Eduardo Pinhata - @edupinhata
+Rafael Paniccia Cassetta - @drsigma
