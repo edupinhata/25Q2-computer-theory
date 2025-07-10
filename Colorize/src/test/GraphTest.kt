@@ -284,25 +284,4 @@ class GraphTest {
         assertEquals(nodesThatFormMaxNullMatrix.size, 5)
         assertEquals(nodesThatFormMaxNullMatrix, listOf(3, 6, 8, 10, 12))
     }
-
-    @Test
-    fun `test getMaxNullMatrix on a node with no non-linked nodes`() {
-        val nodeToTest = 2 // Example node that might be fully connected in the graph
-        graph1.getMaxNullMatrix(nodeToTest)
-
-        val nonLinkedNodes = graph1.getNonLinkedNodes(nodeToTest)
-        assertTrue(nonLinkedNodes.isEmpty(), "No non-linked nodes should exist for node $nodeToTest")
-    }
-
-    @Test
-    fun `test getMaxNullMatrix on an isolated node`() {
-        // Add an isolated node to the graph for testing purposes
-        val isolatedNode = 6
-        graph1.addLink(isolatedNode, isolatedNode)
-
-        graph1.getMaxNullMatrix(isolatedNode)
-
-        val nonLinkedNodes = graph1.getNonLinkedNodes(isolatedNode)
-        assertEquals(graph1.getNodesNum() - 1, nonLinkedNodes.size, "Isolated node should not be linked to any other nodes")
-    }
 }

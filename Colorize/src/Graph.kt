@@ -70,12 +70,14 @@ class Graph(filePath: String) {
         return this.degrees[node-1]
     }
 
-    fun getMaxDegreeNode(): Int{
-        return getMaxDegreeNodeBetween(1, this.nodesNum)
+    fun getMaxDegreeNodes(): List<Int>{
+        return getMaxDegreeNodesBetween(1, this.nodesNum)
     }
 
-    fun getMaxDegreeNodeBetween(node1: Int, node2: Int) : Int{
+    fun getMaxDegreeNodesBetween(node1: Int, node2: Int) : List<Int> {
         validateNodes(node1, node2)
+        var maxDegreeNodes = ArrayList<Int>()
+
         var minNode = node1
         var maxNode = node2
         if (node1 > node2) {
@@ -83,14 +85,17 @@ class Graph(filePath: String) {
             maxNode = node1
         }
         var maxDegree = 0
-        var maxDegreeNode = 0
+
         for (i in minNode..maxNode){
+            if (getNodeDegree(i) == maxDegree){
+                maxDegreeNodes.add(i)
+            }
             if (getNodeDegree(i) > maxDegree){
                maxDegree =  getNodeDegree(i)
-               maxDegreeNode = i
+               maxDegreeNodes = arrayListOf(i)
             }
         }
-        return maxDegreeNode
+        return maxDegreeNodes
     }
 
     fun getLinkedNodes(node: Int): ArrayList<Int>{
@@ -175,6 +180,13 @@ class Graph(filePath: String) {
         linksNum += 2
     }
 
+    fun getSumOfNodeDegrees(nodes: List<Int>) : Int {
+        var sumDegree : Int = 0
+        nodes.forEach { node ->
+           sumDegree += calculateNodeDegree(node)
+        }
+        return sumDegree
+    }
 
     private fun calculateNodeDegree(node: Int) : Int {
         validateNode(node)
