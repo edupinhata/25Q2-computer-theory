@@ -1,51 +1,55 @@
 import java.io.File
 
 class Graph(filePath: String) {
-    private var linksNum: Int
-    private var nodesNum: Int
+    private var linksNum: Int = 0
+    private var nodesNum: Int = 0
     private val links : Array<IntArray>
+    private val adjacence : Array<IntArray>
     private val colors: Array<IntArray>
     private val degrees: Array<Int>
+    private val adjacenceDegree: Array<Int>
 
     init {
-        nodesNum = readNodeNums(filePath)
-        linksNum = 0
+        initializeNodeNums(filePath)
         links = Array(nodesNum) { IntArray(nodesNum) {0} }
+        adjacence = Array(nodesNum*nodesNum) { IntArray(nodesNum*nodesNum) {0} }
         colors = Array(nodesNum) { IntArray(nodesNum) {0} }
         degrees = Array<Int>(nodesNum){0}
-        initializeFromFile(filePath)
+        adjacenceDegree = Array<Int>(nodesNum*nodesNum){0}
+        initializeLinksFromFile(filePath)
+        initializeAdjacenceMatrix()
         for (i in 1..nodesNum){
             this.degrees[i-1] = calculateNodeDegree(i)
         }
+
+        for (i in 0..nodesNum*nodesNum-1){
+            this.adjacenceDegree[i] = adjacence[i].reduce { acc, adj -> acc + adj}
+        }
     }
 
-    private fun readNodeNums(filePath: String): Int {
+    private fun initializeNodeNums(filePath: String) {
         val lines: List<String> = File(filePath).readLines()
         var lineVals: Array<String>
-        var nodesNum = 0
 
         for (line: String in lines) {
             lineVals = line.split(" ").toTypedArray()
             if (lineVals[0] == "p") {
-                nodesNum = lineVals[2].toInt()
-                return nodesNum
+                this.nodesNum = lineVals[2].toInt()
+                this.linksNum = lineVals[3].toInt()
             } else {
                 continue
             }
         }
-        return nodesNum
     }
 
-    private fun initializeFromFile(filePath : String) {
+    private fun initializeLinksFromFile(filePath : String) {
         val lines : List<String> = File(filePath).readLines()
         var lineVals : Array<String>
 
         for ( line: String in lines ){
             lineVals = line.split(" ").toTypedArray()
-            if (lineVals[0].equals("p")){
-                nodesNum = lineVals[2].toInt()
-            }
-            else if (lineVals[0].equals("e")){
+
+            if (lineVals[0].equals("e")){
                 this.addLink(lineVals[1].toInt(), lineVals[2].toInt())
             }
             else
@@ -53,6 +57,44 @@ class Graph(filePath: String) {
         }
     }
 
+    private fun initializeAdjacenceMatrix() {
+        for (node1 in 1..nodesNum){
+            val linkedNodes = getLinkedNodes(node1)
+            for (node2 in linkedNodes){
+                val edge1 = getEdgeIndex(node1, node2)
+                for (node3 in linkedNodes){
+                    if (node2 != node3){
+                        val edge2 = getEdgeIndex(node1, node3)
+                        adjacence[edge1][edge2] = 1
+                        adjacence[edge2][edge1] = 1
+                    }
+                }
+            }
+        }
+    }
+
+    public fun getEdgeIndex(node1 : Int, node2: Int): Int {
+        /*
+            To have an adjacence matrix, we need to map each edge uniquely,
+            and make a matrix of edge to edge.
+            The number of the edge will be composed by the indexes of the nodes in N:
+            Let N_1 be node 1, index 0, N_2 be node 2, index 1, and so on.
+
+            N_a x N_b = A_(|N|*(a-1) + (b-1))
+
+            E.g.
+                |N| = 10
+                N_2 x N_3 = A_(10 * 1 + 2) = A_12
+                N_1 x N_5 = A_(10 * 0 + 4) = A_4
+                ...
+         */
+        validateNodes(node1, node2)
+        return this.nodesNum * (node1-1) + (node2-1)
+    }
+
+    public fun getAdjacenceMatrix() : Array<IntArray>{
+        return this.adjacence
+    }
 
     fun colorize(node1: Int, node2: Int, color: Int) {
         validateNodes(node1, node2)
@@ -68,6 +110,16 @@ class Graph(filePath: String) {
     fun getNodeDegree(node: Int): Int {
         validateNode(node)
         return this.degrees[node-1]
+    }
+
+    fun getAdjacenceDegree(node1: Int, node2: Int): Int {
+        val edge = getEdgeIndex(node1, node2)
+        return getNodeDegree(edge)
+    }
+
+    fun getAdjacenceDegree(edge: Int): Int{
+        validateEdge(edge)
+        return this.adjacenceDegree[edge]
     }
 
     fun getMaxDegreeNodes(): List<Int>{
@@ -200,6 +252,10 @@ class Graph(filePath: String) {
     private fun validateNodes(node1: Int, node2: Int){
         validateNode(node1)
         validateNode(node2)
+    }
+
+    public fun validateEdge(edge: Int){
+        require(edge in 0 until linksNum) { "Edge $edge not a valid edge"}
     }
 
 }

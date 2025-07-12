@@ -22,7 +22,7 @@ class GraphTest {
 
     fun getArticleGraph(): String{
        return """
-            p col 19 49
+            p col 19 98
             e 1 2
             e 1 3
             e 1 4
@@ -77,7 +77,7 @@ class GraphTest {
 
     fun getGraphStr(): String {
         return """
-        p edge 5
+        p edge 5 6
         e 1 2
         e 1 3
         e 4 5
@@ -93,7 +93,7 @@ class GraphTest {
           Nodes 4, 5, 6 have no links.
         */
         return """
-        p edge 6
+        p edge 6 4
         e 1 2
         e 1 3
         """.trimIndent()
@@ -112,7 +112,7 @@ class GraphTest {
             5
          */
         return """
-        p edge 5
+        p edge 5 20
         e 1 2
         e 1 3
         e 1 4
@@ -140,7 +140,7 @@ class GraphTest {
           6 -- 7 -- 8
         */
         return """
-        p edge 8
+        p edge 8 12
         e 1 2
         e 2 3
         e 3 1
