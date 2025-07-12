@@ -4,6 +4,7 @@ class Graph(filePath: String) {
     private var linksNum: Int = 0
     private var nodesNum: Int = 0
     private val links : Array<IntArray>
+    private val nodesToEdge : Array<IntArray>
     private val adjacence : Array<IntArray>
     private val colors: Array<IntArray>
     private val degrees: Array<Int>
@@ -12,7 +13,8 @@ class Graph(filePath: String) {
     init {
         initializeNodeNums(filePath)
         links = Array(nodesNum) { IntArray(nodesNum) {0} }
-        adjacence = Array(nodesNum*nodesNum) { IntArray(nodesNum*nodesNum) {0} }
+        nodesToEdge = Array(nodesNum) {IntArray(nodesNum) {-1} }
+        adjacence = Array(linksNum) { IntArray(linksNum) {0} }
         colors = Array(nodesNum) { IntArray(nodesNum) {0} }
         degrees = Array<Int>(nodesNum){0}
         adjacenceDegree = Array<Int>(nodesNum*nodesNum){0}
@@ -22,7 +24,7 @@ class Graph(filePath: String) {
             this.degrees[i-1] = calculateNodeDegree(i)
         }
 
-        for (i in 0..nodesNum*nodesNum-1){
+        for (i in 0..linksNum-1){
             this.adjacenceDegree[i] = adjacence[i].reduce { acc, adj -> acc + adj}
         }
     }
@@ -35,12 +37,14 @@ class Graph(filePath: String) {
             lineVals = line.split(" ").toTypedArray()
             if (lineVals[0] == "p") {
                 this.nodesNum = lineVals[2].toInt()
-                this.linksNum = lineVals[3].toInt()
+                this.linksNum = lineVals[3].toInt()/2
+                return
             } else {
                 continue
             }
         }
     }
+
 
     private fun initializeLinksFromFile(filePath : String) {
         val lines : List<String> = File(filePath).readLines()
@@ -58,6 +62,17 @@ class Graph(filePath: String) {
     }
 
     private fun initializeAdjacenceMatrix() {
+        var curEdge = 0
+        for (node1 in 0..nodesNum-1) {
+            for (node2 in node1..nodesNum - 1) {
+                if (links[node1][node2] == 1){
+                    nodesToEdge[node1][node2] = curEdge
+                    nodesToEdge[node2][node1] = curEdge
+                    curEdge++
+                }
+            }
+        }
+
         for (node1 in 1..nodesNum){
             val linkedNodes = getLinkedNodes(node1)
             for (node2 in linkedNodes){
@@ -73,23 +88,29 @@ class Graph(filePath: String) {
         }
     }
 
+    public fun getAllNodesIndexes(): ArrayList<Int> {
+        val nodes = ArrayList<Int>()
+        for (i in 1..nodesNum){
+            nodes.add(i-1)
+        }
+        return nodes
+    }
+
+    public fun getAllEdgesIndexes(): ArrayList<Int> {
+        val edges = ArrayList<Int>()
+        for (i in 0..linksNum-1){
+            edges.add(i)
+        }
+        return edges
+    }
+
+
     public fun getEdgeIndex(node1 : Int, node2: Int): Int {
         /*
-            To have an adjacence matrix, we need to map each edge uniquely,
-            and make a matrix of edge to edge.
-            The number of the edge will be composed by the indexes of the nodes in N:
-            Let N_1 be node 1, index 0, N_2 be node 2, index 1, and so on.
 
-            N_a x N_b = A_(|N|*(a-1) + (b-1))
-
-            E.g.
-                |N| = 10
-                N_2 x N_3 = A_(10 * 1 + 2) = A_12
-                N_1 x N_5 = A_(10 * 0 + 4) = A_4
-                ...
          */
         validateNodes(node1, node2)
-        return this.nodesNum * (node1-1) + (node2-1)
+        return nodesToEdge[node1-1][node2-1]
     }
 
     public fun getAdjacenceMatrix() : Array<IntArray>{
@@ -114,7 +135,7 @@ class Graph(filePath: String) {
 
     fun getAdjacenceDegree(node1: Int, node2: Int): Int {
         val edge = getEdgeIndex(node1, node2)
-        return getNodeDegree(edge)
+        return getAdjacenceDegree(edge)
     }
 
     fun getAdjacenceDegree(edge: Int): Int{
@@ -202,19 +223,12 @@ class Graph(filePath: String) {
        return mainNonLinkedList.filter { node -> linkedList.contains(node)}
     }
 
-    fun getMaxNullMatrix(mainNode: Int): List<Int> {
-        var nodeLinkedRelativeMapping = getSortedLinkedMappingRelativeToNode(mainNode)
-        var acceptedNodes = arrayListOf(mainNode)
-        var rejectedNodes = ArrayList<Int>()
-
-        nodeLinkedRelativeMapping[mainNode]?.forEach { node ->
-            if (!rejectedNodes.contains(node)){
-                acceptedNodes.add(node)
-                rejectedNodes.addAll(nodeLinkedRelativeMapping[node]!!)
-            }
-        }
-        println("======= Null Matrix Size: " + acceptedNodes.size)
-        return acceptedNodes
+    fun getMaxNullMatrixIndexes(mainNode: Int): List<Int> {
+        validateNode(mainNode)
+        val matrixUtil = intSymmetricMatrixUtil(this.adjacence)
+        var nullMatrixIndexes = matrixUtil.getMaxNullMatrixRows(mainNode-1)
+        matrixUtil.printMatrix(nullMatrixIndexes)
+        return nullMatrixIndexes
     }
 
     fun getNodesNum() : Int {
@@ -229,7 +243,6 @@ class Graph(filePath: String) {
         validateNodes(node1, node2)
         links[node1-1][node2-1] = 1
         links[node2-1][node1-1] = 1
-        linksNum += 2
     }
 
     fun getSumOfNodeDegrees(nodes: List<Int>) : Int {

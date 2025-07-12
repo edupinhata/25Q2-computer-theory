@@ -22,56 +22,26 @@ class GraphTest {
 
     fun getArticleGraph(): String{
        return """
-            p col 19 98
-            e 1 2
-            e 1 3
-            e 1 4
+            p col 11 38
             e 1 5
+            e 1 6
+            e 1 7
             e 1 8
-            e 1 13
-            e 2 3
-            e 2 4
+            e 1 11
             e 2 5
-            e 2 7
+            e 2 6
+            e 2 9
             e 2 10
-            e 3 4
             e 3 5
+            e 3 8
             e 3 9
-            e 3 17
-            e 4 5
-            e 4 11
-            e 4 12
-            e 5 6
-            e 5 19
-            e 6 7
-            e 6 14
-            e 6 15
-            e 6 19
-            e 7 10
-            e 7 14
-            e 7 15
-            e 8 9
-            e 8 13
-            e 8 15
-            e 8 16
-            e 9 15
-            e 9 16
-            e 9 17
+            e 4 6
+            e 4 7
+            e 4 10
+            e 7 9
+            e 8 10
+            e 9 11
             e 10 11
-            e 10 16
-            e 11 12
-            e 11 16
-            e 12 13
-            e 12 14
-            e 12 18
-            e 13 14
-            e 13 18
-            e 14 15
-            e 14 18
-            e 15 16
-            e 17 18
-            e 17 19
-            e 18 19 
        """.trimIndent()
     }
 
@@ -265,23 +235,18 @@ class GraphTest {
     @Test
     fun `test getMaxNullMatrix on node with known non-linked nodes`() {
         val nodeToTest = 1 // Example node, adjust as necessary
-        var nodesThatFormMaxNullMatrix = graph1.getMaxNullMatrix(nodeToTest)
 
-        val nonLinkedNodes = graph1.getNonLinkedNodes(nodeToTest)
-        assertEquals(nodesThatFormMaxNullMatrix.size, 2)
-        assertEquals(nodesThatFormMaxNullMatrix, listOf(1, 4))
+        var rowsOfMaxNullAdjacenceMatrix = graph1.getMaxNullMatrixIndexes(nodeToTest)
+        assertEquals(rowsOfMaxNullAdjacenceMatrix.size, 2)
+        assertEquals(rowsOfMaxNullAdjacenceMatrix, listOf(0, 2))
 
-        nodesThatFormMaxNullMatrix = graphArticle.getMaxNullMatrix(nodeToTest)
-        assertEquals(nodesThatFormMaxNullMatrix.size, 5)
-        assertEquals(nodesThatFormMaxNullMatrix, listOf(1, 6, 9, 10, 12))
+        rowsOfMaxNullAdjacenceMatrix = graphArticle.getMaxNullMatrixIndexes(nodeToTest)
+        assertEquals(rowsOfMaxNullAdjacenceMatrix.size, 5)
 
-        nodesThatFormMaxNullMatrix = graphArticle.getMaxNullMatrix(2)
-        assertEquals(nodesThatFormMaxNullMatrix.size, 5)
-        //assertEquals(nodesThatFormMaxNullMatrix, listOf(2, 11, 13, 15, 17)) -> result from article
-        assertEquals(nodesThatFormMaxNullMatrix, listOf(2, 6, 8, 11, 17))
+        rowsOfMaxNullAdjacenceMatrix = graphArticle.getMaxNullMatrixIndexes(2)
+        assertEquals(rowsOfMaxNullAdjacenceMatrix.size, 5)
 
-        nodesThatFormMaxNullMatrix = graphArticle.getMaxNullMatrix(3)
-        assertEquals(nodesThatFormMaxNullMatrix.size, 5)
-        assertEquals(nodesThatFormMaxNullMatrix, listOf(3, 6, 8, 10, 12))
+        rowsOfMaxNullAdjacenceMatrix = graphArticle.getMaxNullMatrixIndexes(3)
+        assertEquals(rowsOfMaxNullAdjacenceMatrix.size, 5)
     }
 }

@@ -63,6 +63,8 @@ class intSymmetricMatrixUtil(matrix: Array<IntArray>) {
     }
 
     fun printMatrix(rows: List<Int>) {
+        println("Rows: ${rows.joinToString(", ")}")
+        println("Size: ${rows.size}")
         for (row in rows) {
             var rowStr = ""
             for (col in rows){

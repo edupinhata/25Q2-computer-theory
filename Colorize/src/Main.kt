@@ -51,7 +51,7 @@ fun runColorizeAlgorithm() {
     //selected row and go to step 3.
     if (maxDegreeNodes.size == 1){
         val maxDegreeNode = maxDegreeNodes.get(0)
-        maxNullMatrixNodes = graph.getMaxNullMatrix(maxDegreeNode) as ArrayList<Int>
+        maxNullMatrixNodes = graph.getMaxNullMatrixIndexes(maxDegreeNode) as ArrayList<Int>
     }
     //Case (b): If there is a tie in the maximum value , select all those rows and find all maximal null matrices
     //formed by the zeros in the corresponding selected rows then select the largest null matrix among all maximal
@@ -66,7 +66,7 @@ fun runColorizeAlgorithm() {
     else {
         var tmpNullMatrixNodes =  ArrayList<Int>()
         maxDegreeNodes.forEach { node ->
-           tmpNullMatrixNodes = graph.getMaxNullMatrix(node) as ArrayList<Int>
+           tmpNullMatrixNodes = graph.getMaxNullMatrixIndexes(node) as ArrayList<Int>
             if (maxNullMatrixNodes.size == tmpNullMatrixNodes.size){
                 val maxNullMatrixDegreeSum = graph.getSumOfNodeDegrees(maxNullMatrixNodes)
                 val tmpNullMatrixDegreeSum = graph.getSumOfNodeDegrees(tmpNullMatrixNodes)
