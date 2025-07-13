@@ -5,7 +5,7 @@ class Graph(filePath: String) {
     private var nodesNum: Int = 0
     private val links : Array<IntArray>
     private val nodesToEdge : Array<IntArray>
-    private val adjacence : Array<IntArray>
+    private val adjacence : IntSymmetricMatrix
     private val colors: Array<IntArray>
     private val degrees: Array<Int>
     private val adjacenceDegree: Array<Int>
@@ -14,7 +14,7 @@ class Graph(filePath: String) {
         initializeNodeNums(filePath)
         links = Array(nodesNum) { IntArray(nodesNum) {0} }
         nodesToEdge = Array(nodesNum) {IntArray(nodesNum) {-1} }
-        adjacence = Array(linksNum) { IntArray(linksNum) {0} }
+        adjacence = IntSymmetricMatrix(Array(linksNum) { IntArray(linksNum) {0} })
         colors = Array(nodesNum) { IntArray(nodesNum) {0} }
         degrees = Array<Int>(nodesNum){0}
         adjacenceDegree = Array<Int>(nodesNum*nodesNum){0}
@@ -25,7 +25,7 @@ class Graph(filePath: String) {
         }
 
         for (i in 0..linksNum-1){
-            this.adjacenceDegree[i] = adjacence[i].reduce { acc, adj -> acc + adj}
+            this.adjacenceDegree[i] = adjacence.getMatrix()[i].reduce { acc, adj -> acc + adj}
         }
     }
 
@@ -44,7 +44,6 @@ class Graph(filePath: String) {
             }
         }
     }
-
 
     private fun initializeLinksFromFile(filePath : String) {
         val lines : List<String> = File(filePath).readLines()
@@ -80,15 +79,15 @@ class Graph(filePath: String) {
                 for (node3 in linkedNodes){
                     if (node2 != node3){
                         val edge2 = getEdgeIndex(node1, node3)
-                        adjacence[edge1][edge2] = 1
-                        adjacence[edge2][edge1] = 1
+                        adjacence.getMatrix()[edge1][edge2] = 1
+                        adjacence.getMatrix()[edge2][edge1] = 1
                     }
                 }
             }
         }
     }
 
-    public fun getAllNodesIndexes(): ArrayList<Int> {
+    fun getAllNodesIndexes(): ArrayList<Int> {
         val nodes = ArrayList<Int>()
         for (i in 1..nodesNum){
             nodes.add(i-1)
@@ -96,7 +95,7 @@ class Graph(filePath: String) {
         return nodes
     }
 
-    public fun getAllEdgesIndexes(): ArrayList<Int> {
+    fun getAllEdgesIndexes(): ArrayList<Int> {
         val edges = ArrayList<Int>()
         for (i in 0..linksNum-1){
             edges.add(i)
@@ -104,17 +103,17 @@ class Graph(filePath: String) {
         return edges
     }
 
-
-    public fun getEdgeIndex(node1 : Int, node2: Int): Int {
-        /*
-
-         */
+    fun getEdgeIndex(node1 : Int, node2: Int): Int {
         validateNodes(node1, node2)
         return nodesToEdge[node1-1][node2-1]
     }
 
-    public fun getAdjacenceMatrix() : Array<IntArray>{
+    fun getAdjacence() : IntSymmetricMatrix {
         return this.adjacence
+    }
+
+    fun getAdjacenceMatrix() : Array<IntArray>{
+        return this.adjacence.getMatrix()
     }
 
     fun colorize(node1: Int, node2: Int, color: Int) {
@@ -201,34 +200,19 @@ class Graph(filePath: String) {
         return linkedNodes.filter { n -> nodesToExplore.contains(n) }
     }
 
-    fun getSortedLinkedMappingRelativeToNode(relativeNode: Int): HashMap<Int, List<Int>> {
-        var mainNodeNonLinkedNodes = getNonLinkedNodes(relativeNode)
-        var linkedNodesRelativeMap: HashMap<Int, List<Int>> = HashMap<Int, List<Int>>()
-        linkedNodesRelativeMap[relativeNode] = mainNodeNonLinkedNodes
-
-        for (node in mainNodeNonLinkedNodes){
-            linkedNodesRelativeMap[node] = getLinkedListRelativeToNonLinkedListNode(relativeNode, node)
-        }
-
-        return linkedNodesRelativeMap.entries
-            .sortedWith ( compareBy(
-                {it.value.size}, {it.key}))
-            .associate { it.toPair() }
-            .toMap(LinkedHashMap())
-    }
-
-    fun getLinkedListRelativeToNonLinkedListNode(nonLinkedNode: Int, nodeToGetLinkedList: Int): List<Int> {
-        val mainNonLinkedList = getNonLinkedNodes(nonLinkedNode)
-        val linkedList = getLinkedNodes(nodeToGetLinkedList)
-       return mainNonLinkedList.filter { node -> linkedList.contains(node)}
-    }
-
-    fun getMaxNullMatrixIndexes(mainNode: Int): List<Int> {
+    fun getAdjacenceMaxNullMatrixIndexes(mainNode: Int): List<Int> {
         validateNode(mainNode)
-        val matrixUtil = intSymmetricMatrixUtil(this.adjacence)
-        var nullMatrixIndexes = matrixUtil.getMaxNullMatrixRows(mainNode-1)
-        matrixUtil.printMatrix(nullMatrixIndexes)
+        var nullMatrixIndexes = this.adjacence.getMaxNullMatrixRows(mainNode-1)
+        this.adjacence.printMatrix(nullMatrixIndexes)
         return nullMatrixIndexes
+    }
+
+    fun getAdjacentSumOfDegrees(edges : List<Int>) : Int{
+        var sumDegrees : Int = 0
+        edges.forEach { edge ->
+            sumDegrees += getAdjacenceDegree(edge)
+        }
+        return sumDegrees
     }
 
     fun getNodesNum() : Int {

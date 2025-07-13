@@ -1,10 +1,10 @@
 package test
 
-import intSymmetricMatrixUtil
+import IntSymmetricMatrix
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
-class intSymmetricMatrixUtilTest {
+class intSymmetricMatrixTest {
 
     private lateinit var exampleMatrix1 : Array<IntArray>
 
@@ -34,7 +34,7 @@ class intSymmetricMatrixUtilTest {
 
     @Test
     fun `test getMaxNullMatrixRows`(){
-        val matrixUtil = intSymmetricMatrixUtil(exampleMatrix1)
+        val matrixUtil = IntSymmetricMatrix(exampleMatrix1)
         var nullMatrix = matrixUtil.getMaxNullMatrixRows(0)
         matrixUtil.printMatrix(nullMatrix)
         println("Matrix row 0")

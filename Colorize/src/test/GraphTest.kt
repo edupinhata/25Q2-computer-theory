@@ -120,7 +120,6 @@ class GraphTest {
         """.trimIndent()
     }
 
-
     fun initializeTestGraph(graphFile: String): Graph{
         val tempFile = File.createTempFile("temp", ".txt")
         tempFile.writeText(graphFile)
@@ -128,7 +127,6 @@ class GraphTest {
         tempFile.deleteOnExit()
         return graph
     }
-
 
     @Test
     fun `test getNonLinkedNodes on node with known non-linked nodes`(){
@@ -149,8 +147,6 @@ class GraphTest {
         nonLinkedNodes = graphDense.getNonLinkedNodes(nodeTotest)
         assertTrue(nonLinkedNodes.isEmpty())
     }
-
-
 
     @Test
     fun `test getLinkedNodes on node with known linked nodes`(){
@@ -173,80 +169,20 @@ class GraphTest {
     }
 
     @Test
-    fun `test getSortedLinkedMappingRelativeToNode multiple working tests`(){
-        // In this mapping, the list of the main node has all nodes not linked to it
-        // the other nodes contain all nodes linked to it that is not linked to the main node
-        val nodeToTest = 1
-        var mapping = graph1.getSortedLinkedMappingRelativeToNode(nodeToTest)
-        var nodeOrder = mapping.keys.toList()
-
-        assertTrue(mapping[4]?.containsAll(arrayListOf(5)) ?: false)
-        assertTrue(mapping[5]?.containsAll(arrayListOf(4)) ?: false)
-        assertTrue(mapping[nodeToTest]?.containsAll(arrayListOf(4, 5)) ?: false)
-        assert(nodeOrder == listOf(4, 5, 1) )
-
-        mapping = graphDense.getSortedLinkedMappingRelativeToNode(nodeToTest)
-        assertTrue(mapping.get(nodeToTest)?.isEmpty() ?: false)
-
-        mapping = graphSparce.getSortedLinkedMappingRelativeToNode(nodeToTest)
-        nodeOrder = mapping.keys.toList()
-
-        assertTrue(mapping[4]?.isEmpty() ?: false)
-        assertTrue(mapping[5]?.isEmpty() ?: false)
-        assertTrue(mapping[6]?.isEmpty() ?: false)
-        assertTrue(mapping[nodeToTest]?.containsAll(arrayListOf(4, 5, 6)) ?: false)
-        assertEquals(nodeOrder, listOf(4, 5, 6, 1))
-
-        mapping = graphDisconnected.getSortedLinkedMappingRelativeToNode(nodeToTest)
-        nodeOrder = mapping.keys.toList()
-
-        assertTrue(mapping[1]?.containsAll(arrayListOf( 4, 5, 6, 7, 8)) ?: false)
-        assertTrue(mapping[4]?.containsAll(arrayListOf( 5 )) ?: false)
-        assertTrue(mapping[5]?.containsAll(arrayListOf(4)) ?: false)
-        assertTrue(mapping[6]?.containsAll(arrayListOf(7)) ?: false)
-        assertTrue(mapping[7]?.containsAll(arrayListOf(6, 8)) ?: false)
-        assertTrue(mapping[8]?.containsAll(arrayListOf( 7 )) ?: false)
-        assertEquals(nodeOrder, listOf(4, 5, 6, 8, 7, 1 ))
-    }
-
-    @Test
-    fun `test getRelativeLinkedList check all vertices relative to the first`(){
-        var expectedRelativeLinkedList = LinkedHashMap<Int, ArrayList<Int>>()
-        expectedRelativeLinkedList[6] = arrayListOf(7, 14, 15, 19)
-        expectedRelativeLinkedList[7] = arrayListOf(6, 10, 14, 15)
-        expectedRelativeLinkedList[9] = arrayListOf(15, 16, 17)
-        expectedRelativeLinkedList[10] = arrayListOf(7, 11, 16)
-        expectedRelativeLinkedList[11] = arrayListOf(10, 12, 16)
-        expectedRelativeLinkedList[12] = arrayListOf(11, 14, 18)
-        expectedRelativeLinkedList[14] = arrayListOf(6, 7, 12, 15, 18)
-        expectedRelativeLinkedList[15] = arrayListOf(6, 7, 9, 14, 16)
-        expectedRelativeLinkedList[16] = arrayListOf(9, 10, 11, 15)
-        expectedRelativeLinkedList[17] = arrayListOf(9, 18, 19)
-        expectedRelativeLinkedList[18] = arrayListOf(12, 14, 17, 19)
-        expectedRelativeLinkedList[19] = arrayListOf(6, 17, 18)
-
-        val mainNodeNonLinkedNodes = graphArticle.getNonLinkedNodes(1)
-        mainNodeNonLinkedNodes.forEach { n ->
-            val linkedList = graphArticle.getLinkedListRelativeToNonLinkedListNode(1, n)
-            assertTrue(linkedList.containsAll(expectedRelativeLinkedList[n]!!))
-        }
-    }
-
-    @Test
     fun `test getMaxNullMatrix on node with known non-linked nodes`() {
         val nodeToTest = 1 // Example node, adjust as necessary
 
-        var rowsOfMaxNullAdjacenceMatrix = graph1.getMaxNullMatrixIndexes(nodeToTest)
+        var rowsOfMaxNullAdjacenceMatrix = graph1.getAdjacenceMaxNullMatrixIndexes(nodeToTest)
         assertEquals(rowsOfMaxNullAdjacenceMatrix.size, 2)
         assertEquals(rowsOfMaxNullAdjacenceMatrix, listOf(0, 2))
 
-        rowsOfMaxNullAdjacenceMatrix = graphArticle.getMaxNullMatrixIndexes(nodeToTest)
+        rowsOfMaxNullAdjacenceMatrix = graphArticle.getAdjacenceMaxNullMatrixIndexes(nodeToTest)
         assertEquals(rowsOfMaxNullAdjacenceMatrix.size, 5)
 
-        rowsOfMaxNullAdjacenceMatrix = graphArticle.getMaxNullMatrixIndexes(2)
+        rowsOfMaxNullAdjacenceMatrix = graphArticle.getAdjacenceMaxNullMatrixIndexes(2)
         assertEquals(rowsOfMaxNullAdjacenceMatrix.size, 5)
 
-        rowsOfMaxNullAdjacenceMatrix = graphArticle.getMaxNullMatrixIndexes(3)
+        rowsOfMaxNullAdjacenceMatrix = graphArticle.getAdjacenceMaxNullMatrixIndexes(3)
         assertEquals(rowsOfMaxNullAdjacenceMatrix.size, 5)
     }
 }

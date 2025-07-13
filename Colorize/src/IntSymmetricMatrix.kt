@@ -1,16 +1,30 @@
-import java.util.ArrayList
+import kotlin.collections.ArrayList
 
-class intSymmetricMatrixUtil(matrix: Array<IntArray>) {
+class IntSymmetricMatrix(matrix: Array<IntArray>) {
 
     private var matrix :  Array<IntArray>
     private var nRows : Int
     private var nCols : Int
+    private var degrees : Array<Int>
 
     init {
         this.matrix = matrix
         this.nRows = matrix.size
         this.nCols = matrix[0].size
+        this.degrees = getDegrees()
         // TODO: Verify if it's symmetric
+    }
+
+    fun getMatrix(): Array<IntArray> {
+        return matrix
+    }
+
+    private fun getDegrees(): Array<Int> {
+       val degrees = Array<Int>(nRows) {0}
+       for (row in 0..nRows-1){
+           degrees[row] = matrix[row].reduce { acc, adj -> acc + 1}
+       }
+        return degrees
     }
 
     fun getNullColumns(row: Int) : List<Int> {
@@ -46,7 +60,32 @@ class intSymmetricMatrixUtil(matrix: Array<IntArray>) {
             .toMap(LinkedHashMap())
     }
 
-    public fun getMaxNullMatrixRows(row: Int): ArrayList<Int> {
+    fun getMaxDegreeNodes() : ArrayList<Int> {
+        var maxDegree = 0
+        var maxDegreeNodes = ArrayList<Int>()
+        var curDegree = 0
+        for (row in 0..nRows-1){
+            curDegree = getDegree(row)
+            if (curDegree == maxDegree){
+                maxDegreeNodes.add(row)
+            }
+            else if (curDegree > maxDegree){
+                maxDegree = curDegree
+                maxDegreeNodes = arrayListOf(row)
+            }
+        }
+        return maxDegreeNodes
+    }
+
+    fun getMaxDegree(): Int {
+        return getDegree(getMaxDegreeNodes()[0])
+    }
+
+    fun getDegree(row: Int) : Int {
+        return this.degrees[row]
+    }
+
+    fun getMaxNullMatrixRows(row: Int): ArrayList<Int> {
         var nullCols = getNullColumns(row)
         var nonNullColMapping = getNonNullColumnsMapping(nullCols)
         var acceptedRows = arrayListOf(row)
