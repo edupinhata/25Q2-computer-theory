@@ -22,7 +22,7 @@ class IntSymmetricMatrix(matrix: Array<IntArray>) {
     private fun getDegrees(): Array<Int> {
        val degrees = Array<Int>(nRows) {0}
        for (row in 0..nRows-1){
-           degrees[row] = matrix[row].reduce { acc, adj -> acc + 1}
+           degrees[row] = matrix[row].reduce { acc, adj -> acc + adj}
        }
         return degrees
     }
@@ -60,36 +60,38 @@ class IntSymmetricMatrix(matrix: Array<IntArray>) {
             .toMap(LinkedHashMap())
     }
 
-    fun getMaxDegreeNodes() : ArrayList<Int> {
+    fun getMaxDegreeRows(alreadyProcessedRows: ArrayList<Int>) : ArrayList<Int> {
         var maxDegree = 0
-        var maxDegreeNodes = ArrayList<Int>()
+        var maxDegreeRows = ArrayList<Int>()
         var curDegree = 0
         for (row in 0..nRows-1){
+            // TODO: Improve performance in this check
+            if (row in alreadyProcessedRows){continue}
             curDegree = getDegree(row)
             if (curDegree == maxDegree){
-                maxDegreeNodes.add(row)
+                maxDegreeRows.add(row)
             }
             else if (curDegree > maxDegree){
                 maxDegree = curDegree
-                maxDegreeNodes = arrayListOf(row)
+                maxDegreeRows = arrayListOf(row)
             }
         }
-        return maxDegreeNodes
+        return maxDegreeRows
     }
 
-    fun getMaxDegree(): Int {
-        return getDegree(getMaxDegreeNodes()[0])
+    fun getMaxDegree(alreadyProcessedRows: ArrayList<Int>): Int {
+        return getDegree(getMaxDegreeRows(alreadyProcessedRows)[0])
     }
 
     fun getDegree(row: Int) : Int {
         return this.degrees[row]
     }
 
-    fun getMaxNullMatrixRows(row: Int): ArrayList<Int> {
+    fun getMaxNullMatrixRows(row: Int, alreadyProcessedRows: ArrayList<Int>): ArrayList<Int> {
         var nullCols = getNullColumns(row)
         var nonNullColMapping = getNonNullColumnsMapping(nullCols)
         var acceptedRows = arrayListOf(row)
-        var rejectedRows = ArrayList<Int>()
+        var rejectedRows = alreadyProcessedRows.toMutableList()
 
         nullCols.forEach { col ->
             if (!rejectedRows.contains(col)){

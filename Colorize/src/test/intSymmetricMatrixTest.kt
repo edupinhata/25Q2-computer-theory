@@ -35,16 +35,16 @@ class intSymmetricMatrixTest {
     @Test
     fun `test getMaxNullMatrixRows`(){
         val matrixUtil = IntSymmetricMatrix(exampleMatrix1)
-        var nullMatrix = matrixUtil.getMaxNullMatrixRows(0)
+        var nullMatrix = matrixUtil.getMaxNullMatrixRows(0, ArrayList<Int>())
         matrixUtil.printMatrix(nullMatrix)
         println("Matrix row 0")
-        nullMatrix = matrixUtil.getMaxNullMatrixRows(1)
+        nullMatrix = matrixUtil.getMaxNullMatrixRows(1, ArrayList<Int>())
         matrixUtil.printMatrix(nullMatrix)
         println("Matrix row 1")
-        nullMatrix = matrixUtil.getMaxNullMatrixRows(2)
+        nullMatrix = matrixUtil.getMaxNullMatrixRows(2, ArrayList<Int>())
         matrixUtil.printMatrix(nullMatrix)
         println("Matrix row 2")
-        nullMatrix = matrixUtil.getMaxNullMatrixRows(3)
+        nullMatrix = matrixUtil.getMaxNullMatrixRows(3, ArrayList<Int>())
         matrixUtil.printMatrix(nullMatrix)
         println("Matrix row 3")
 

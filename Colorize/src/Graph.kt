@@ -1,31 +1,31 @@
 import java.io.File
 
 class Graph(filePath: String) {
+    // TODO: nodes starts with 1, while edges with 0.
     private var linksNum: Int = 0
     private var nodesNum: Int = 0
     private val links : Array<IntArray>
     private val nodesToEdge : Array<IntArray>
-    private val adjacence : IntSymmetricMatrix
-    private val colors: Array<IntArray>
+    private val edgeColors: Array<Int>
     private val degrees: Array<Int>
-    private val adjacenceDegree: Array<Int>
+    private lateinit var adjacency : IntSymmetricMatrix
+    private val adjacencyDegree: Array<Int>
 
     init {
         initializeNodeNums(filePath)
         links = Array(nodesNum) { IntArray(nodesNum) {0} }
         nodesToEdge = Array(nodesNum) {IntArray(nodesNum) {-1} }
-        adjacence = IntSymmetricMatrix(Array(linksNum) { IntArray(linksNum) {0} })
-        colors = Array(nodesNum) { IntArray(nodesNum) {0} }
+        edgeColors = Array<Int>(linksNum){0}
         degrees = Array<Int>(nodesNum){0}
-        adjacenceDegree = Array<Int>(nodesNum*nodesNum){0}
+        adjacencyDegree = Array<Int>(nodesNum*nodesNum){0}
         initializeLinksFromFile(filePath)
-        initializeAdjacenceMatrix()
+        initializeAdjacencyMatrix()
         for (i in 1..nodesNum){
             this.degrees[i-1] = calculateNodeDegree(i)
         }
 
         for (i in 0..linksNum-1){
-            this.adjacenceDegree[i] = adjacence.getMatrix()[i].reduce { acc, adj -> acc + adj}
+            this.adjacencyDegree[i] = adjacency.getMatrix()[i].reduce { acc, adj -> acc + adj}
         }
     }
 
@@ -60,8 +60,10 @@ class Graph(filePath: String) {
         }
     }
 
-    private fun initializeAdjacenceMatrix() {
+    private fun initializeAdjacencyMatrix() {
         var curEdge = 0
+        val adjacencyMatrix = Array(linksNum){IntArray(linksNum) {0}}
+
         for (node1 in 0..nodesNum-1) {
             for (node2 in node1..nodesNum - 1) {
                 if (links[node1][node2] == 1){
@@ -79,12 +81,13 @@ class Graph(filePath: String) {
                 for (node3 in linkedNodes){
                     if (node2 != node3){
                         val edge2 = getEdgeIndex(node1, node3)
-                        adjacence.getMatrix()[edge1][edge2] = 1
-                        adjacence.getMatrix()[edge2][edge1] = 1
+                        adjacencyMatrix[edge1][edge2] = 1
+                        adjacencyMatrix[edge2][edge1] = 1
                     }
                 }
             }
         }
+        this.adjacency = IntSymmetricMatrix(adjacencyMatrix)
     }
 
     fun getAllNodesIndexes(): ArrayList<Int> {
@@ -109,22 +112,60 @@ class Graph(filePath: String) {
     }
 
     fun getAdjacence() : IntSymmetricMatrix {
-        return this.adjacence
+        return this.adjacency
     }
 
     fun getAdjacenceMatrix() : Array<IntArray>{
-        return this.adjacence.getMatrix()
+        return this.adjacency.getMatrix()
     }
 
-    fun colorize(node1: Int, node2: Int, color: Int) {
-        validateNodes(node1, node2)
-        colors[node1-1][node2-1] = color
-        colors[node2-1][node1-1] = color
+    fun colorize(edge: Int, color: Int) {
+        validateEdge(edge)
+        edgeColors[edge] = color
     }
 
-    fun isColored(node1 : Int, node2 : Int): Boolean {
-        validateNodes(node1, node2)
-        return colors[node1-1][node2-1] != 0 || colors[node2-1][node1-1] != 0
+    fun isColored(edge : Int): Boolean {
+        validateEdge(edge)
+        return edgeColors[edge] != 0
+    }
+
+    fun hasUncoloredEdges(): Boolean {
+        for (i in 0..linksNum-1){
+            if (edgeColors[i] == 0){
+                return true
+            }
+        }
+        return false
+    }
+
+    fun printColoredEdges() {
+        var lastColor = 0
+        var colorMapping = HashMap<Int, ArrayList<Int>>()
+
+        for (i in 0..linksNum-1){
+            if (edgeColors[i] > lastColor){
+                lastColor = edgeColors[i]
+            }
+        }
+
+        for (c in 0..lastColor){
+            colorMapping[c] = ArrayList<Int>()
+        }
+
+        for (i in 0..linksNum-1){
+            if (edgeColors[i] != 0){
+                colorMapping[edgeColors[i]]!!.add(i)
+            }
+        }
+        //print mapping
+        for (c in 0..lastColor){
+            if (colorMapping[c]!!.size > 0){
+                println("Color $c: ${colorMapping[c]!!.joinToString(", ")}")
+            }
+            else{
+                println("Color $c: empty")
+            }
+        }
     }
 
     fun getNodeDegree(node: Int): Int {
@@ -139,7 +180,7 @@ class Graph(filePath: String) {
 
     fun getAdjacenceDegree(edge: Int): Int{
         validateEdge(edge)
-        return this.adjacenceDegree[edge]
+        return this.adjacencyDegree[edge]
     }
 
     fun getMaxDegreeNodes(): List<Int>{
@@ -200,10 +241,10 @@ class Graph(filePath: String) {
         return linkedNodes.filter { n -> nodesToExplore.contains(n) }
     }
 
-    fun getAdjacenceMaxNullMatrixIndexes(mainNode: Int): List<Int> {
-        validateNode(mainNode)
-        var nullMatrixIndexes = this.adjacence.getMaxNullMatrixRows(mainNode-1)
-        this.adjacence.printMatrix(nullMatrixIndexes)
+    fun getAdjacenceMaxNullMatrixIndexes(edge: Int, alreadyProcessedEdges: ArrayList<Int>): List<Int> {
+        validateEdge(edge)
+        var nullMatrixIndexes = this.adjacency.getMaxNullMatrixRows(edge, alreadyProcessedEdges)
+        //this.adjacency.printMatrix(nullMatrixIndexes)
         return nullMatrixIndexes
     }
 

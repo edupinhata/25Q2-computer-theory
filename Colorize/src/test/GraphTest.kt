@@ -170,19 +170,20 @@ class GraphTest {
 
     @Test
     fun `test getMaxNullMatrix on node with known non-linked nodes`() {
+        // TODO: fix test
         val nodeToTest = 1 // Example node, adjust as necessary
 
-        var rowsOfMaxNullAdjacenceMatrix = graph1.getAdjacenceMaxNullMatrixIndexes(nodeToTest)
+        var rowsOfMaxNullAdjacenceMatrix = graph1.getAdjacenceMaxNullMatrixIndexes(nodeToTest, ArrayList<Int>())
         assertEquals(rowsOfMaxNullAdjacenceMatrix.size, 2)
         assertEquals(rowsOfMaxNullAdjacenceMatrix, listOf(0, 2))
 
-        rowsOfMaxNullAdjacenceMatrix = graphArticle.getAdjacenceMaxNullMatrixIndexes(nodeToTest)
+        rowsOfMaxNullAdjacenceMatrix = graphArticle.getAdjacenceMaxNullMatrixIndexes(nodeToTest, ArrayList<Int>())
         assertEquals(rowsOfMaxNullAdjacenceMatrix.size, 5)
 
-        rowsOfMaxNullAdjacenceMatrix = graphArticle.getAdjacenceMaxNullMatrixIndexes(2)
+        rowsOfMaxNullAdjacenceMatrix = graphArticle.getAdjacenceMaxNullMatrixIndexes(2, ArrayList<Int>())
         assertEquals(rowsOfMaxNullAdjacenceMatrix.size, 5)
 
-        rowsOfMaxNullAdjacenceMatrix = graphArticle.getAdjacenceMaxNullMatrixIndexes(3)
+        rowsOfMaxNullAdjacenceMatrix = graphArticle.getAdjacenceMaxNullMatrixIndexes(3, ArrayList<Int>())
         assertEquals(rowsOfMaxNullAdjacenceMatrix.size, 5)
     }
 }
