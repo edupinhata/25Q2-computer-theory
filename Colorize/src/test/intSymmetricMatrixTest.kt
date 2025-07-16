@@ -3,6 +3,7 @@ package test
 import IntSymmetricMatrix
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import java.util.HashMap
 
 class intSymmetricMatrixTest {
 
@@ -35,16 +36,16 @@ class intSymmetricMatrixTest {
     @Test
     fun `test getMaxNullMatrixRows`(){
         val matrixUtil = IntSymmetricMatrix(exampleMatrix1)
-        var nullMatrix = matrixUtil.getMaxNullMatrixRows(0, ArrayList<Int>())
+        var nullMatrix = matrixUtil.getMaxNullMatrixRows(0, HashMap<Int, Boolean>())
         matrixUtil.printMatrix(nullMatrix)
         println("Matrix row 0")
-        nullMatrix = matrixUtil.getMaxNullMatrixRows(1, ArrayList<Int>())
+        nullMatrix = matrixUtil.getMaxNullMatrixRows(1, HashMap<Int, Boolean>())
         matrixUtil.printMatrix(nullMatrix)
         println("Matrix row 1")
-        nullMatrix = matrixUtil.getMaxNullMatrixRows(2, ArrayList<Int>())
+        nullMatrix = matrixUtil.getMaxNullMatrixRows(2, HashMap<Int, Boolean>())
         matrixUtil.printMatrix(nullMatrix)
         println("Matrix row 2")
-        nullMatrix = matrixUtil.getMaxNullMatrixRows(3, ArrayList<Int>())
+        nullMatrix = matrixUtil.getMaxNullMatrixRows(3, HashMap<Int, Boolean>())
         matrixUtil.printMatrix(nullMatrix)
         println("Matrix row 3")
 

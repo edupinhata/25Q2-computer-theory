@@ -5,28 +5,17 @@ class IntSymmetricMatrix(matrix: Array<IntArray>) {
     private var matrix :  Array<IntArray>
     private var nRows : Int
     private var nCols : Int
-    private var degrees : Array<Int>
 
     init {
         this.matrix = matrix
         this.nRows = matrix.size
         this.nCols = matrix[0].size
-        this.degrees = getDegrees()
         // TODO: Verify if it's symmetric
     }
 
     fun getMatrix(): Array<IntArray> {
         return matrix
     }
-
-    private fun getDegrees(): Array<Int> {
-       val degrees = Array<Int>(nRows) {0}
-       for (row in 0..nRows-1){
-           degrees[row] = matrix[row].reduce { acc, adj -> acc + adj}
-       }
-        return degrees
-    }
-
     fun getNullColumns(row: Int) : List<Int> {
         val nullColumns = ArrayList<Int>()
         for (col in 0..nCols-1){
@@ -60,43 +49,16 @@ class IntSymmetricMatrix(matrix: Array<IntArray>) {
             .toMap(LinkedHashMap())
     }
 
-    fun getMaxDegreeRows(alreadyProcessedRows: ArrayList<Int>) : ArrayList<Int> {
-        var maxDegree = 0
-        var maxDegreeRows = ArrayList<Int>()
-        var curDegree = 0
-        for (row in 0..nRows-1){
-            // TODO: Improve performance in this check
-            if (row in alreadyProcessedRows){continue}
-            curDegree = getDegree(row)
-            if (curDegree == maxDegree){
-                maxDegreeRows.add(row)
-            }
-            else if (curDegree > maxDegree){
-                maxDegree = curDegree
-                maxDegreeRows = arrayListOf(row)
-            }
-        }
-        return maxDegreeRows
-    }
-
-    fun getMaxDegree(alreadyProcessedRows: ArrayList<Int>): Int {
-        return getDegree(getMaxDegreeRows(alreadyProcessedRows)[0])
-    }
-
-    fun getDegree(row: Int) : Int {
-        return this.degrees[row]
-    }
-
-    fun getMaxNullMatrixRows(row: Int, alreadyProcessedRows: ArrayList<Int>): ArrayList<Int> {
+    fun getMaxNullMatrixRows(row: Int, alreadyProcessedRows: HashMap<Int, Boolean>): ArrayList<Int> {
         var nullCols = getNullColumns(row)
         var nonNullColMapping = getNonNullColumnsMapping(nullCols)
         var acceptedRows = arrayListOf(row)
-        var rejectedRows = alreadyProcessedRows.toMutableList()
+        var rejectedRows: MutableMap<Int, Boolean> = alreadyProcessedRows.toMap().toMutableMap()
 
         nullCols.forEach { col ->
-            if (!rejectedRows.contains(col)){
+            if (rejectedRows[col] == false){
                 acceptedRows.add(col)
-                rejectedRows.addAll(nonNullColMapping[col]!!)
+                nonNullColMapping[col]!!.forEach{ nonNullCol ->  rejectedRows[nonNullCol] = true}
             }
         }
         println("======= Null Matrix Size: " + acceptedRows.size)

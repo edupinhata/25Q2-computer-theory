@@ -10,6 +10,7 @@ class Graph(filePath: String) {
     private val degrees: Array<Int>
     private lateinit var adjacency : IntSymmetricMatrix
     private val adjacencyDegree: Array<Int>
+    private val adjacencyProcessed: HashMap<Int, Boolean>
 
     init {
         initializeNodeNums(filePath)
@@ -18,6 +19,7 @@ class Graph(filePath: String) {
         edgeColors = Array<Int>(linksNum){0}
         degrees = Array<Int>(nodesNum){0}
         adjacencyDegree = Array<Int>(nodesNum*nodesNum){0}
+        adjacencyProcessed = HashMap<Int, Boolean>()
         initializeLinksFromFile(filePath)
         initializeAdjacencyMatrix()
         for (i in 1..nodesNum){
@@ -26,6 +28,7 @@ class Graph(filePath: String) {
 
         for (i in 0..linksNum-1){
             this.adjacencyDegree[i] = adjacency.getMatrix()[i].reduce { acc, adj -> acc + adj}
+            this.adjacencyProcessed[i] = false
         }
     }
 
@@ -117,6 +120,16 @@ class Graph(filePath: String) {
 
     fun getAdjacenceMatrix() : Array<IntArray>{
         return this.adjacency.getMatrix()
+    }
+
+    fun setAdjacencyProcessed(edges: List<Int>){
+        edges.forEach { edge ->
+            this.adjacencyProcessed[edge] = true
+        }
+    }
+
+    fun getNumAdjacencyProcessed() : Int {
+        return this.adjacencyProcessed.values.filter { v -> v }.size
     }
 
     fun colorize(edge: Int, color: Int) {
@@ -231,20 +244,10 @@ class Graph(filePath: String) {
         return nonLinkedNodes
     }
 
-    fun getNonLinkedNodesWithinNodes(node: Int, nodesToExplore: ArrayList<Int>): List<Int> {
-        var nonLinkedNodes = getNonLinkedNodes(node)
-        return nonLinkedNodes.filter { n ->  nodesToExplore.contains(n) }
-    }
 
-    fun getLinkedNodesWithinNodes(node: Int, nodesToExplore: ArrayList<Int>): List<Int> {
-        var linkedNodes = getLinkedNodes(node)
-        return linkedNodes.filter { n -> nodesToExplore.contains(n) }
-    }
-
-    fun getAdjacenceMaxNullMatrixIndexes(edge: Int, alreadyProcessedEdges: ArrayList<Int>): List<Int> {
+    fun getAdjacenceMaxNullMatrixIndexes(edge: Int): List<Int> {
         validateEdge(edge)
-        var nullMatrixIndexes = this.adjacency.getMaxNullMatrixRows(edge, alreadyProcessedEdges)
-        //this.adjacency.printMatrix(nullMatrixIndexes)
+        var nullMatrixIndexes = this.adjacency.getMaxNullMatrixRows(edge, this.adjacencyProcessed)
         return nullMatrixIndexes
     }
 
@@ -254,6 +257,23 @@ class Graph(filePath: String) {
             sumDegrees += getAdjacenceDegree(edge)
         }
         return sumDegrees
+    }
+
+    fun getAdjacentMaxDegreeEdges(): ArrayList<Int> {
+        var maxDegree = 0
+        var maxDegreeEdges = ArrayList<Int>()
+        var adjacencyProcessable = adjacencyProcessed.keys.filter { e -> adjacencyProcessed[e] == false }
+        for (edge in adjacencyProcessable){
+            var curEdgeDegree = getAdjacenceDegree(edge)
+            if (curEdgeDegree == maxDegree){
+                maxDegreeEdges.add(edge)
+            }
+            else if (curEdgeDegree > maxDegree){
+                maxDegree = curEdgeDegree
+                maxDegreeEdges = arrayListOf(edge)
+            }
+        }
+        return maxDegreeEdges
     }
 
     fun getNodesNum() : Int {
@@ -292,8 +312,19 @@ class Graph(filePath: String) {
         validateNode(node2)
     }
 
-    public fun validateEdge(edge: Int){
+    private fun validateEdge(edge: Int){
         require(edge in 0 until linksNum) { "Edge $edge not a valid edge"}
+    }
+
+
+    fun getNonLinkedNodesWithinNodes(node: Int, nodesToExplore: ArrayList<Int>): List<Int> {
+        var nonLinkedNodes = getNonLinkedNodes(node)
+        return nonLinkedNodes.filter { n ->  nodesToExplore.contains(n) }
+    }
+
+    fun getLinkedNodesWithinNodes(node: Int, nodesToExplore: ArrayList<Int>): List<Int> {
+        var linkedNodes = getLinkedNodes(node)
+        return linkedNodes.filter { n -> nodesToExplore.contains(n) }
     }
 
 }

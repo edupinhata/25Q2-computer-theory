@@ -173,17 +173,17 @@ class GraphTest {
         // TODO: fix test
         val nodeToTest = 1 // Example node, adjust as necessary
 
-        var rowsOfMaxNullAdjacenceMatrix = graph1.getAdjacenceMaxNullMatrixIndexes(nodeToTest, ArrayList<Int>())
+        var rowsOfMaxNullAdjacenceMatrix = graph1.getAdjacenceMaxNullMatrixIndexes(nodeToTest)
         assertEquals(rowsOfMaxNullAdjacenceMatrix.size, 2)
         assertEquals(rowsOfMaxNullAdjacenceMatrix, listOf(0, 2))
 
-        rowsOfMaxNullAdjacenceMatrix = graphArticle.getAdjacenceMaxNullMatrixIndexes(nodeToTest, ArrayList<Int>())
+        rowsOfMaxNullAdjacenceMatrix = graphArticle.getAdjacenceMaxNullMatrixIndexes(nodeToTest)
         assertEquals(rowsOfMaxNullAdjacenceMatrix.size, 5)
 
-        rowsOfMaxNullAdjacenceMatrix = graphArticle.getAdjacenceMaxNullMatrixIndexes(2, ArrayList<Int>())
+        rowsOfMaxNullAdjacenceMatrix = graphArticle.getAdjacenceMaxNullMatrixIndexes(2)
         assertEquals(rowsOfMaxNullAdjacenceMatrix.size, 5)
 
-        rowsOfMaxNullAdjacenceMatrix = graphArticle.getAdjacenceMaxNullMatrixIndexes(3, ArrayList<Int>())
+        rowsOfMaxNullAdjacenceMatrix = graphArticle.getAdjacenceMaxNullMatrixIndexes(3)
         assertEquals(rowsOfMaxNullAdjacenceMatrix.size, 5)
     }
 }

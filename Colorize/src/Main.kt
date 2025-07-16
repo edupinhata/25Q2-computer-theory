@@ -28,7 +28,6 @@ fun main() {
  */
 fun runColorizeAlgorithm(fileName: String) {
     var maxNullMatrixIndexes = ArrayList<Int>()
-    val alreadyProcessedEdges = ArrayList<Int>()
     var color = 1
     var maxOverallDegree = 0
 
@@ -36,11 +35,11 @@ fun runColorizeAlgorithm(fileName: String) {
     var graph : Graph = Graph(fileName)
 
     while (graph.hasUncoloredEdges()) {
-        println("Color numbers: ${color-1} | Max Overall Degree: $maxOverallDegree | Already processed edges: ${alreadyProcessedEdges.size}")
+        println("Color numbers: ${color-1} | Max Overall Degree: $maxOverallDegree | Already processed edges: ${graph.getNumAdjacencyProcessed()}")
         //Step 2: Find the sum of the elements in each row of the matrix constructed in step 1. Select the row that has
         //the maximum value.
         println("Finding max degree edges")
-        val maxDegreeEdges: ArrayList<Int> = graph.getAdjacence().getMaxDegreeRows(alreadyProcessedEdges)
+        val maxDegreeEdges: ArrayList<Int> = graph.getAdjacentMaxDegreeEdges()
         if (maxOverallDegree == 0){
             maxOverallDegree = maxDegreeEdges[0]
         }
@@ -51,7 +50,7 @@ fun runColorizeAlgorithm(fileName: String) {
             val maxDegreeEdge = maxDegreeEdges[0]
 
             println("Unique max degree edge found: $maxDegreeEdge. Forming maximal null matrix.")
-            maxNullMatrixIndexes = graph.getAdjacenceMaxNullMatrixIndexes(maxDegreeEdge, alreadyProcessedEdges) as ArrayList<Int>
+            maxNullMatrixIndexes = graph.getAdjacenceMaxNullMatrixIndexes(maxDegreeEdge) as ArrayList<Int>
         }
         //Case (b): If there is a tie in the maximum value , select all those rows and find all maximal null matrices
         //formed by the zeros in the corresponding selected rows then select the largest null matrix among all maximal
@@ -67,7 +66,7 @@ fun runColorizeAlgorithm(fileName: String) {
             println("Multiple max degree edges found. Forming maximal null matrices.")
             var tmpNullMatrixIndexes = ArrayList<Int>()
             maxDegreeEdges.forEach { node ->
-                tmpNullMatrixIndexes = graph.getAdjacenceMaxNullMatrixIndexes(node, alreadyProcessedEdges) as ArrayList<Int>
+                tmpNullMatrixIndexes = graph.getAdjacenceMaxNullMatrixIndexes(node) as ArrayList<Int>
                 if (maxNullMatrixIndexes.size == tmpNullMatrixIndexes.size) {
                     val maxNullMatrixDegreeSum = graph.getAdjacentSumOfDegrees(maxNullMatrixIndexes)
                     val tmpNullMatrixDegreeSum = graph.getAdjacentSumOfDegrees(tmpNullMatrixIndexes)
@@ -88,7 +87,7 @@ fun runColorizeAlgorithm(fileName: String) {
         println("Recording already processed edges.")
         //Step 5: Remove all the rows and columns associated with the colored edges, then go to step 2 and repeat the
         //process until all the edges have been colored.
-        alreadyProcessedEdges.addAll(maxNullMatrixIndexes)
+        graph.setAdjacencyProcessed(maxNullMatrixIndexes)
         maxNullMatrixIndexes.clear()
 
         if (color > maxOverallDegree) {
