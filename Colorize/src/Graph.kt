@@ -8,7 +8,7 @@ class Graph(filePath: String) {
     private val nodesToEdge : Array<IntArray>
     private val edgeColors: Array<Int>
     private val degrees: Array<Int>
-    private lateinit var adjacency : IntSymmetricMatrix
+    private lateinit var adjacency : SymmetricBinaryMatrix
     private val adjacencyDegree: Array<Int>
     private val adjacencyProcessed: HashMap<Int, Boolean>
 
@@ -27,7 +27,7 @@ class Graph(filePath: String) {
         }
 
         for (i in 0..linksNum-1){
-            this.adjacencyDegree[i] = adjacency.getMatrix()[i].reduce { acc, adj -> acc + adj}
+            this.adjacencyDegree[i] = adjacency.getMatrix()[i]!!.size
             this.adjacencyProcessed[i] = false
         }
     }
@@ -40,7 +40,7 @@ class Graph(filePath: String) {
             lineVals = line.split(" ").toTypedArray()
             if (lineVals[0] == "p") {
                 this.nodesNum = lineVals[2].toInt()
-                this.linksNum = lineVals[3].toInt()/2
+                this.linksNum = lineVals[3].toInt()
                 return
             } else {
                 continue
@@ -51,24 +51,30 @@ class Graph(filePath: String) {
     private fun initializeLinksFromFile(filePath : String) {
         val lines : List<String> = File(filePath).readLines()
         var lineVals : Array<String>
+        var edges = 0
 
         for ( line: String in lines ){
             lineVals = line.split(" ").toTypedArray()
 
             if (lineVals[0].equals("e")){
                 this.addLink(lineVals[1].toInt(), lineVals[2].toInt())
+                edges++
             }
             else
                 continue
         }
+        this.linksNum = edges
     }
 
     private fun initializeAdjacencyMatrix() {
         var curEdge = 0
-        val adjacencyMatrix = Array(linksNum){IntArray(linksNum) {0}}
+        val adjacencyMatrix = HashMap<Int, ArrayList<Int>>()
+        for (edge in 0..<linksNum){
+            adjacencyMatrix.putIfAbsent(edge, ArrayList<Int>())
+        }
 
-        for (node1 in 0..nodesNum-1) {
-            for (node2 in node1..nodesNum - 1) {
+        for (node1 in 0..<nodesNum) {
+            for (node2 in node1..<nodesNum) {
                 if (links[node1][node2] == 1){
                     nodesToEdge[node1][node2] = curEdge
                     nodesToEdge[node2][node1] = curEdge
@@ -84,13 +90,13 @@ class Graph(filePath: String) {
                 for (node3 in linkedNodes){
                     if (node2 != node3){
                         val edge2 = getEdgeIndex(node1, node3)
-                        adjacencyMatrix[edge1][edge2] = 1
-                        adjacencyMatrix[edge2][edge1] = 1
+                        adjacencyMatrix[edge1]!!.add(edge2)
+                        adjacencyMatrix[edge2]!!.add(edge1)
                     }
                 }
             }
         }
-        this.adjacency = IntSymmetricMatrix(adjacencyMatrix)
+        this.adjacency = SymmetricBinaryMatrix(adjacencyMatrix)
     }
 
     fun getAllNodesIndexes(): ArrayList<Int> {
@@ -114,11 +120,11 @@ class Graph(filePath: String) {
         return nodesToEdge[node1-1][node2-1]
     }
 
-    fun getAdjacence() : IntSymmetricMatrix {
+    fun getAdjacence() : SymmetricBinaryMatrix {
         return this.adjacency
     }
 
-    fun getAdjacenceMatrix() : Array<IntArray>{
+    fun getAdjacenceMatrix() : HashMap<Int, ArrayList<Int>>{
         return this.adjacency.getMatrix()
     }
 

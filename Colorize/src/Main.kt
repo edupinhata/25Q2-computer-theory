@@ -1,8 +1,22 @@
 import java.text.DecimalFormat
 
 fun main() {
-    val fileName = "resources/dsjc250.5.col.txt"
-    runColorizeAlgorithm(fileName)
+    //val fileName = "resources/dsjc250.5.col.txt"
+    //val fileName = "resources/dsjc500.1.col.txt"
+    val fileNames = arrayOf(
+    //"resources/dsjc250.5.col.txt",
+    //"resources/dsjc500.1.col.txt",
+    //"resources/dsjc500.5.col.txt",
+    "resources/dsjc500.9.col.txt",
+    //"resources/dsjc1000.1.col.txt",
+    "resources/dsjc1000.5.col.txt")
+    //"resources/dsjc1000.9.col.txt",
+    //"resources/dsjr500.1c.col.txt",
+    //"resources/sjr500.5.col.txt")
+    for (fileName in fileNames) {
+        println("Processing file: $fileName")
+        runColorizeAlgorithm(fileName)
+    }
 }
 
 /*
@@ -50,7 +64,7 @@ fun runColorizeAlgorithm(fileName: String) {
         var percentageBlockStr = "|${processedSymbols}${unprocessedSymbols}| ${(formattedPercentage)}%"
         var edgesProcessedRatioStr = "${adjacenceProcessed}/${edgesNum}"
         var elapsedTimeStr = "${System.currentTimeMillis() - startTime} ms"
-        print("$percentageBlockStr - $edgesProcessedRatioStr - $elapsedTimeStr\r")
+        print("$percentageBlockStr | Processed: $edgesProcessedRatioStr | Colors: ${color} | Elapsed: $elapsedTimeStr\r")
         //println("Color numbers: ${color-1} | Max Overall Degree: $maxOverallDegree | Already processed edges: ${graph.getNumAdjacencyProcessed()}")
 
         //Step 2: Find the sum of the elements in each row of the matrix constructed in step 1. Select the row that has
