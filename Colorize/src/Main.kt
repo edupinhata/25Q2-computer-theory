@@ -1,3 +1,5 @@
+import java.text.DecimalFormat
+
 fun main() {
     val fileName = "resources/dsjc250.5.col.txt"
     runColorizeAlgorithm(fileName)
@@ -30,15 +32,30 @@ fun runColorizeAlgorithm(fileName: String) {
     var maxNullMatrixIndexes = ArrayList<Int>()
     var color = 1
     var maxOverallDegree = 0
+    var startTime = System.currentTimeMillis()
+    var formatter = DecimalFormat("#0.00")
 
     //Step 1: Construct an edge adjacency matrix for the given graph.
     var graph : Graph = Graph(fileName)
+    var edgesNum = graph.getLinksNum()
 
     while (graph.hasUncoloredEdges()) {
-        println("Color numbers: ${color-1} | Max Overall Degree: $maxOverallDegree | Already processed edges: ${graph.getNumAdjacencyProcessed()}")
+        var adjacenceProcessed = graph.getNumAdjacencyProcessed()
+        var processedPercentage: Double = adjacenceProcessed.toDouble()/edgesNum.toDouble()
+        var formattedPercentage = formatter.format(processedPercentage*100)
+        var processedSymbols = ""
+        var unprocessedSymbols = ""
+        for (i in 0..(processedPercentage*40).toInt()) {processedSymbols += "-"}
+        for (i in 0..((1-processedPercentage)*40).toInt()) {unprocessedSymbols += " "}
+        var percentageBlockStr = "|${processedSymbols}${unprocessedSymbols}| ${(formattedPercentage)}%"
+        var edgesProcessedRatioStr = "${adjacenceProcessed}/${edgesNum}"
+        var elapsedTimeStr = "${System.currentTimeMillis() - startTime} ms"
+        print("$percentageBlockStr - $edgesProcessedRatioStr - $elapsedTimeStr\r")
+        //println("Color numbers: ${color-1} | Max Overall Degree: $maxOverallDegree | Already processed edges: ${graph.getNumAdjacencyProcessed()}")
+
         //Step 2: Find the sum of the elements in each row of the matrix constructed in step 1. Select the row that has
         //the maximum value.
-        println("Finding max degree edges")
+        //println("Finding max degree edges")
         val maxDegreeEdges: ArrayList<Int> = graph.getAdjacentMaxDegreeEdges()
         if (maxOverallDegree == 0){
             maxOverallDegree = maxDegreeEdges[0]
@@ -49,7 +66,7 @@ fun runColorizeAlgorithm(fileName: String) {
         if (maxDegreeEdges.size == 1) {
             val maxDegreeEdge = maxDegreeEdges[0]
 
-            println("Unique max degree edge found: $maxDegreeEdge. Forming maximal null matrix.")
+            //println("Unique max degree edge found: $maxDegreeEdge. Forming maximal null matrix.")
             maxNullMatrixIndexes = graph.getAdjacenceMaxNullMatrixIndexes(maxDegreeEdge) as ArrayList<Int>
         }
         //Case (b): If there is a tie in the maximum value , select all those rows and find all maximal null matrices
@@ -63,7 +80,7 @@ fun runColorizeAlgorithm(fileName: String) {
         // If it is unique, then go to step 4.
         // If there is a tie in the maximum degree sum, then select any one largest null matrix arbitrarily
         else {
-            println("Multiple max degree edges found. Forming maximal null matrices.")
+            //println("Multiple max degree edges found. Forming maximal null matrices.")
             var tmpNullMatrixIndexes = ArrayList<Int>()
             maxDegreeEdges.forEach { node ->
                 tmpNullMatrixIndexes = graph.getAdjacenceMaxNullMatrixIndexes(node) as ArrayList<Int>
@@ -80,11 +97,11 @@ fun runColorizeAlgorithm(fileName: String) {
         }
         //Step 4: Assign a color to the edges corresponding to the rows of the identified maximal null matrix obtained
         //in step 3 and go to step 5.
-        println("Assigning colors to maximal null matrix.")
+        //println("Assigning colors to maximal null matrix.")
         maxNullMatrixIndexes.forEach { index -> graph.colorize(index, color) }
         color++
 
-        println("Recording already processed edges.")
+        //println("Recording already processed edges.")
         //Step 5: Remove all the rows and columns associated with the colored edges, then go to step 2 and repeat the
         //process until all the edges have been colored.
         graph.setAdjacencyProcessed(maxNullMatrixIndexes)
@@ -96,5 +113,11 @@ fun runColorizeAlgorithm(fileName: String) {
         }
     }
 
+    println("----------------------------------------")
+    println("File processed: $fileName")
+    println("Time consumed: ${System.currentTimeMillis() - startTime} ms")
+    println("Number of colors: $color")
+    println("----------------------------------------")
     graph.printColoredEdges()
+    println("----------------------------------------")
 }

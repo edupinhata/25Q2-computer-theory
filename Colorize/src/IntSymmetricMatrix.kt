@@ -61,7 +61,7 @@ class IntSymmetricMatrix(matrix: Array<IntArray>) {
                 nonNullColMapping[col]!!.forEach{ nonNullCol ->  rejectedRows[nonNullCol] = true}
             }
         }
-        println("======= Null Matrix Size: " + acceptedRows.size)
+        //println("======= Null Matrix Size: " + acceptedRows.size)
         return acceptedRows
     }
 
