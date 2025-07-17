@@ -1,21 +1,34 @@
 import java.text.DecimalFormat
 
 fun main() {
-    //val fileName = "resources/dsjc250.5.col.txt"
-    //val fileName = "resources/dsjc500.1.col.txt"
     val fileNames = arrayOf(
     //"resources/dsjc250.5.col.txt",
     //"resources/dsjc500.1.col.txt",
     //"resources/dsjc500.5.col.txt",
-    "resources/dsjc500.9.col.txt",
+    //"resources/dsjc500.9.col.txt",
     //"resources/dsjc1000.1.col.txt",
-    "resources/dsjc1000.5.col.txt")
+    //"resources/dsjc1000.5.col.txt")
     //"resources/dsjc1000.9.col.txt",
     //"resources/dsjr500.1c.col.txt",
-    //"resources/sjr500.5.col.txt")
+    //"resources/sjr500.5.col.txt",
+    //"resources/flat300_28_0.col.txt",
+    //"resources/flat1000_50_0.col.txt",
+    //"resources/flat1000_60_0.col.txt",
+    //"resources/flat1000_76_0.col.txt"
+    "resources/latin_square.col.txt",
+    "resources/le450_25c.col.txt",
+    "resources/le450_25d.col.txt",
+    "resources/r250.5.col.txt",
+    "resources/r1000.1c.col.txt",
+    "resources/r1000.5.col.txt",
+    )
     for (fileName in fileNames) {
-        println("Processing file: $fileName")
-        runColorizeAlgorithm(fileName)
+        try {
+            println("Processing file: $fileName")
+            runColorizeAlgorithm(fileName)
+        } catch (e: Exception) {
+            println("Error: ${e.message}")
+        }
     }
 }
 
@@ -133,5 +146,7 @@ fun runColorizeAlgorithm(fileName: String) {
     println("Number of colors: $color")
     println("----------------------------------------")
     graph.printColoredEdges()
+    println("----------------------------------------")
+    println("Is solution valid? ${graph.validateColorizeSolution()}")
     println("----------------------------------------")
 }

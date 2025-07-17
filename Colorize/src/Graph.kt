@@ -1,10 +1,12 @@
 import java.io.File
+import java.text.DecimalFormat
 
 class Graph(filePath: String) {
     // TODO: nodes starts with 1, while edges with 0.
     private var linksNum: Int = 0
     private var nodesNum: Int = 0
     private val links : Array<IntArray>
+    // TODO: transform links in a HashMap to improve performance
     private val nodesToEdge : Array<IntArray>
     private val edgeColors: Array<Int>
     private val degrees: Array<Int>
@@ -33,6 +35,7 @@ class Graph(filePath: String) {
     }
 
     private fun initializeNodeNums(filePath: String) {
+        println("Initializing nodes structure ...")
         val lines: List<String> = File(filePath).readLines()
         var lineVals: Array<String>
 
@@ -49,6 +52,7 @@ class Graph(filePath: String) {
     }
 
     private fun initializeLinksFromFile(filePath : String) {
+        println("Initializing edges structure ...")
         val lines : List<String> = File(filePath).readLines()
         var lineVals : Array<String>
         var edges = 0
@@ -67,6 +71,8 @@ class Graph(filePath: String) {
     }
 
     private fun initializeAdjacencyMatrix() {
+        println("Initializing adjacency matrix structure ...")
+        var formatter = DecimalFormat("#0.00")
         var curEdge = 0
         val adjacencyMatrix = HashMap<Int, ArrayList<Int>>()
         for (edge in 0..<linksNum){
@@ -74,6 +80,7 @@ class Graph(filePath: String) {
         }
 
         for (node1 in 0..<nodesNum) {
+            print("Loading nodes to edge: ${formatter.format(node1/nodesNum.toDouble() * 100)}%\r")
             for (node2 in node1..<nodesNum) {
                 if (links[node1][node2] == 1){
                     nodesToEdge[node1][node2] = curEdge
@@ -84,6 +91,7 @@ class Graph(filePath: String) {
         }
 
         for (node1 in 1..nodesNum){
+            print("Loading adjacency matrix: ${formatter.format(node1/nodesNum.toDouble() * 100)}%\r")
             val linkedNodes = getLinkedNodes(node1)
             for (node2 in linkedNodes){
                 val edge1 = getEdgeIndex(node1, node2)
@@ -157,7 +165,7 @@ class Graph(filePath: String) {
         return false
     }
 
-    fun printColoredEdges() {
+    fun getColorMapping(): HashMap<Int, ArrayList<Int>> {
         var lastColor = 0
         var colorMapping = HashMap<Int, ArrayList<Int>>()
 
@@ -176,8 +184,14 @@ class Graph(filePath: String) {
                 colorMapping[edgeColors[i]]!!.add(i)
             }
         }
+        return colorMapping
+    }
+
+    fun printColoredEdges() {
+        val colorMapping = getColorMapping()
+
         //print mapping
-        for (c in 0..lastColor){
+        for (c in 0..<colorMapping.size){
             if (colorMapping[c]!!.size > 0){
                 println("Color $c: ${colorMapping[c]!!.joinToString(", ")}")
             }
@@ -333,4 +347,19 @@ class Graph(filePath: String) {
         return linkedNodes.filter { n -> nodesToExplore.contains(n) }
     }
 
+    fun validateColorizeSolution(): Boolean {
+        val colorMapping = getColorMapping()
+        for (c in 0..colorMapping.size-1){
+            val edges = colorMapping[c]!!
+            for (i in 0..<edges.size-1){
+                for (j in i+1..<edges.size){
+                    if (adjacency.getMatrix()[edges[i]]!!.contains(edges[j])){
+                        println("Error: edge ${edges[i]} is adjacent to edge ${edges[j]} and has the same color $c")
+                        return false
+                    }
+                }
+            }
+        }
+        return true
+    }
 }
