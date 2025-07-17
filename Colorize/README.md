@@ -23,5 +23,5 @@
 | r250.5.col.txt        | 222           | 3667                |
 | r1000.1c.col.txt      | memory        |                     |
 | r1000.5.col.txt       | 918           | 882594              |
-| c2000.5.col.txt       |               |                     |
-| c4000.5.col.txt       |               |                     |
+| c2000.5.col.txt       | memory        |                     |
+| c4000.5.col.txt       | memory        |                     |
