@@ -11,10 +11,10 @@
 | dsjc1000.1.col.txt      | 159           | 14621               |
 | dsjc1000.5.col.txt      | 735           | 2006689             |
 | dsjc1000.9.col.txt      | memory        |                     |
-| dsjr500.1c.col.txt      |               |                     |
-| dsjr500.5.col.txt       |               |                     |
-| flat300_28_0.col.txt    |               |                     |
-| flat1000_50_0.col.txt   |               |                     |
+| dsjr500.1c.col.txt      | 698           | 1466743             |
+| dsjr500.5.col.txt       | 461           | 42520               |
+| flat300_28_0.col.txt    | 219           | 10611               |
+| flat1000_50_0.col.txt   | 712           |  1784328            |
 | flat1000_60_0.col.txt   |               |                     |
 | flat1000_76_0.col.txt   |               |                     |
 | latin_square.col.txt    |               |                     |
