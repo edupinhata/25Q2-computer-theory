@@ -1,6 +1,25 @@
 # Colorize Problem
 
+## Run instructions
+
+To run, compile the code in `src` with the output in the Colorize main path.
+
+You can also use the script `compileAndRun_<os>.sh`. 
+
+- **MaxOS:** consider that `kotlinc` is installed in `/opt/homebrew`. Change it if necessary.
+- **Linux:** consider that `kotlinc` can be called anywhere (is in PATH).
+
+### Memory
+The scripts have a flag to determine how many RAM the java VM will use. Change it if necessary.
+
+### Determine which instance to run
+
+The `Main.kt` has a list with all instances in `resources` directory. Uncomment the ones that you want to run.
+
+
 ## Results
+
+These are the results obtained running the following instances in a Macbook Air M3. 
 
 | Filename              | Colors Number | Execution Time (ms) |
 |-----------------------|---------------|---------------------|
