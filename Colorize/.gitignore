@@ -5,6 +5,9 @@ out/
 
 ### Kotlin ###
 .kotlin
+.class
+.jar
+.iml
 
 ### Eclipse ###
 .apt_generated
