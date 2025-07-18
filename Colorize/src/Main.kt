@@ -2,13 +2,13 @@ import java.text.DecimalFormat
 
 fun main() {
     val fileNames = arrayOf(
-    "resources/dsjc250.5.col.txt",  // OK
+    //"resources/dsjc250.5.col.txt",  // OK
     //"resources/dsjc500.1.col.txt",  // OK
     //"resources/dsjc500.5.col.txt",  // OK
     //"resources/dsjc500.9.col.txt",  // OK
     //"resources/dsjc1000.1.col.txt", // OK
     //"resources/dsjc1000.5.col.txt", // OK
-    //"resources/dsjc1000.9.col.txt",  // Memory problem
+    "resources/dsjc1000.9.col.txt",  // Memory problem
     //"resources/dsjr500.1c.col.txt", // OK
     //"resources/dsjr500.5.col.txt",  //OK
     //"resources/flat300_28_0.col.txt",  //OK
@@ -111,8 +111,8 @@ fun runColorizeAlgorithm(fileName: String) {
         else {
             //println("Multiple max degree edges found. Forming maximal null matrices.")
             var tmpNullMatrixIndexes = ArrayList<Int>()
-            maxDegreeEdges.forEach { node ->
-                tmpNullMatrixIndexes = graph.getAdjacenceMaxNullMatrixIndexes(node) as ArrayList<Int>
+            maxDegreeEdges.forEach { edge ->
+                tmpNullMatrixIndexes = graph.getAdjacenceMaxNullMatrixIndexes(edge) as ArrayList<Int>
                 if (maxNullMatrixIndexes.size == tmpNullMatrixIndexes.size) {
                     val maxNullMatrixDegreeSum = graph.getAdjacentSumOfDegrees(maxNullMatrixIndexes)
                     val tmpNullMatrixDegreeSum = graph.getAdjacentSumOfDegrees(tmpNullMatrixIndexes)
@@ -142,12 +142,12 @@ fun runColorizeAlgorithm(fileName: String) {
         }
     }
 
-    println("----------------------------------------")
+    println("\n----------------------------------------")
     println("File processed: $fileName")
     println("Time consumed: ${System.currentTimeMillis() - startTime} ms")
     println("Number of colors: $color")
-    println("----------------------------------------")
-    graph.printColoredEdges()
+    //println("----------------------------------------")
+    //graph.printColoredEdges()
     println("----------------------------------------")
     println("Is solution valid? ${graph.validateColorizeSolution()}")
     println("----------------------------------------")

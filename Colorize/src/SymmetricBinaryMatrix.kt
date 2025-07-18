@@ -39,6 +39,7 @@ class SymmetricBinaryMatrix(private var matrix: HashMap<Int, ArrayList<Int>>) {
     }
 
     fun getMaxNullMatrixRows(row: Int, alreadyProcessedRows: HashMap<Int, Boolean>): ArrayList<Int> {
+        var startTime = System.currentTimeMillis()
         var nullCols = getNullColumns(row)
         var nonNullColSizeSorted = getNonNullColumnsSizeSorted(nullCols)
         var acceptedRows = arrayListOf(row)
@@ -50,12 +51,8 @@ class SymmetricBinaryMatrix(private var matrix: HashMap<Int, ArrayList<Int>>) {
                 matrix[col]!!.forEach{ c -> rejectedRows[c] = true}
             }
         }
-        //nullCols.forEach { col ->
-        //    if (rejectedRows[col] == false){
-        //        acceptedRows.add(col)
-        //        nonNullColSizeSorted.keys.forEach{ nonNullCol ->  rejectedRows[nonNullCol] = true}
-        //    }
-        //}
+
+        println("Time for getMaxNullMatrixRows($row) = ${System.currentTimeMillis() - startTime} ms")
         return acceptedRows
     }
 

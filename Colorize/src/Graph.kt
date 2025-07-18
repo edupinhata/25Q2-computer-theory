@@ -10,7 +10,8 @@ class Graph(filePath: String) {
     private val nodesToEdge : Array<IntArray>
     private val edgeColors: Array<Int>
     private val degrees: Array<Int>
-    private lateinit var adjacency : SymmetricBinaryMatrix
+    private lateinit var edgesToNodes: HashMap<Int, IntArray>
+    private lateinit var adjacency :EdgesAdjacencyStructure
     private val adjacencyDegree: Array<Int>
     private val adjacencyProcessed: HashMap<Int, Boolean>
 
@@ -23,15 +24,7 @@ class Graph(filePath: String) {
         adjacencyDegree = Array<Int>(nodesNum*nodesNum){0}
         adjacencyProcessed = HashMap<Int, Boolean>()
         initializeLinksFromFile(filePath)
-        initializeAdjacencyMatrix()
-        for (i in 1..nodesNum){
-            this.degrees[i-1] = calculateNodeDegree(i)
-        }
-
-        for (i in 0..linksNum-1){
-            this.adjacencyDegree[i] = adjacency.getMatrix()[i]!!.size
-            this.adjacencyProcessed[i] = false
-        }
+        initializeAdjacencyStructure()
     }
 
     private fun initializeNodeNums(filePath: String) {
@@ -70,41 +63,45 @@ class Graph(filePath: String) {
         this.linksNum = edges
     }
 
-    private fun initializeAdjacencyMatrix() {
-        println("Initializing adjacency matrix structure ...")
-        var formatter = DecimalFormat("#0.00")
+    private fun initializeAdjacencyStructure() {
+        println("Initializing adjacency structure structure ...")
         var curEdge = 0
-        val adjacencyMatrix = HashMap<Int, ArrayList<Int>>()
-        for (edge in 0..<linksNum){
-            adjacencyMatrix.putIfAbsent(edge, ArrayList<Int>())
-        }
+        var formatter = DecimalFormat("#0.00")
+        this.edgesToNodes = HashMap<Int, IntArray>()
 
-        for (node1 in 0..<nodesNum) {
+        for (node1 in 0 until nodesNum) {
             print("Loading nodes to edge: ${formatter.format(node1/nodesNum.toDouble() * 100)}%\r")
-            for (node2 in node1..<nodesNum) {
+            for (node2 in node1 until nodesNum) {
                 if (links[node1][node2] == 1){
                     nodesToEdge[node1][node2] = curEdge
                     nodesToEdge[node2][node1] = curEdge
+                    edgesToNodes[curEdge] = intArrayOf(node1, node2)
                     curEdge++
                 }
             }
         }
 
-        for (node1 in 1..nodesNum){
-            print("Loading adjacency matrix: ${formatter.format(node1/nodesNum.toDouble() * 100)}%\r")
-            val linkedNodes = getLinkedNodes(node1)
-            for (node2 in linkedNodes){
-                val edge1 = getEdgeIndex(node1, node2)
-                for (node3 in linkedNodes){
-                    if (node2 != node3){
-                        val edge2 = getEdgeIndex(node1, node3)
-                        adjacencyMatrix[edge1]!!.add(edge2)
-                        adjacencyMatrix[edge2]!!.add(edge1)
-                    }
-                }
-            }
+        for (i in 1..nodesNum){
+            this.degrees[i-1] = calculateNodeDegree(i)
         }
-        this.adjacency = SymmetricBinaryMatrix(adjacencyMatrix)
+
+        for (i in 0..linksNum-1){
+            this.adjacencyDegree[i] = calculateAdjacencyDegree(i, nodesToEdge, edgesToNodes)
+            this.adjacencyProcessed[i] = false
+        }
+
+        this.adjacency = EdgesAdjacencyStructure(nodesToEdge, edgesToNodes, adjacencyDegree)
+    }
+
+
+    fun calculateAdjacencyDegree(edge: Int, nodesToEdges: Array<IntArray>, edgesToNodes:HashMap<Int, IntArray>): Int {
+        val adjacentEdges = mutableSetOf<Int>()
+        var node: Int
+        for (i in 0..1){
+            node = this.edgesToNodes[edge]!![i]
+            adjacentEdges.addAll(nodesToEdges[node].toList())
+        }
+        return adjacentEdges.toList().filter { it != -1 }.size
     }
 
     fun getAllNodesIndexes(): ArrayList<Int> {
@@ -126,14 +123,6 @@ class Graph(filePath: String) {
     fun getEdgeIndex(node1 : Int, node2: Int): Int {
         validateNodes(node1, node2)
         return nodesToEdge[node1-1][node2-1]
-    }
-
-    fun getAdjacence() : SymmetricBinaryMatrix {
-        return this.adjacency
-    }
-
-    fun getAdjacenceMatrix() : HashMap<Int, ArrayList<Int>>{
-        return this.adjacency.getMatrix()
     }
 
     fun setAdjacencyProcessed(edges: List<Int>){
@@ -353,7 +342,7 @@ class Graph(filePath: String) {
             val edges = colorMapping[c]!!
             for (i in 0..<edges.size-1){
                 for (j in i+1..<edges.size){
-                    if (adjacency.getMatrix()[edges[i]]!!.contains(edges[j])){
+                    if (adjacency.getAdjacentEdges(edges[i])!!.contains(edges[j])){
                         println("Error: edge ${edges[i]} is adjacent to edge ${edges[j]} and has the same color $c")
                         return false
                     }
