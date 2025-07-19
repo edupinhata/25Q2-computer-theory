@@ -29,7 +29,7 @@ These are the results obtained running the following instances in a Macbook Air 
 | dsjc500.9.col.txt     | 659           | 8.792.908           |
 | dsjc1000.1.col.txt    | 159           | 14.621              |
 | dsjc1000.5.col.txt    | 735           | 2.006.689           |
-| dsjc1000.9.col.txt    | memory        |                     |
+| dsjc1000.9.col.txt    | 1288          | 15.931.131          |
 | dsjr500.1c.col.txt    | 698           | 1.466.743           |
 | dsjr500.5.col.txt     | 461           | 42.520              |
 | flat300_28_0.col.txt  | 219           | 10.611              |
