@@ -19,7 +19,13 @@ The `Main.kt` has a list with all instances in `resources` directory. Uncomment 
 
 ## Results
 
-These are the results obtained running the following instances in a Macbook Air M3. 
+### Report of implementation
+
+(v1)[./report/Edge_Coloring_Graph_Implementation.pdf]
+
+### Table with executions results
+
+These are the results obtained running the following instances in a Macbook Air M3, 2024, 16Gb, macOs Sequoia 15.5. 
 
 | Filename              | Colors Number | Execution Time (ms) |
 |-----------------------|---------------|---------------------|
@@ -42,5 +48,5 @@ These are the results obtained running the following instances in a Macbook Air 
 | r250.5.col.txt        | 222           | 3.667               |
 | r1000.1c.col.txt      | memory        |                     |
 | r1000.5.col.txt       | 918           | 882.594             |
-| c2000.5.col.txt       | memory        |                     |
+| c2000.5.col.txt       | 1481          | 35.879.083          |
 | c4000.5.col.txt       | memory        |                     |
