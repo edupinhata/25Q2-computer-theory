@@ -47,7 +47,6 @@ class EdgesAdjacencyStructure(
     }
 
     fun getMaxNullMatrixRows(row: Int, alreadyProcessedRows: HashMap<Int, Boolean>): ArrayList<Int> {
-        var startTime = System.currentTimeMillis()
         var nullCols = getNullColumns(row)
         var nonNullColSizeSorted = getNonNullColumnsSizeSorted(nullCols)
         var acceptedRows = arrayListOf(row)
@@ -60,7 +59,6 @@ class EdgesAdjacencyStructure(
             }
         }
 
-        //println("Time for getMaxNullMatrixRows($row) = ${System.currentTimeMillis() - startTime} ms")
         return acceptedRows
     }
 

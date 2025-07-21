@@ -8,7 +8,7 @@ fun main() {
     //"resources/dsjc500.9.col.txt",  // OK
     //"resources/dsjc1000.1.col.txt", // OK
     //"resources/dsjc1000.5.col.txt", // OK
-    "resources/dsjc1000.9.col.txt",  // Memory problem
+    //"resources/dsjc1000.9.col.txt",  //OK (Memory problem)
     //"resources/dsjr500.1c.col.txt", // OK
     //"resources/dsjr500.5.col.txt",  //OK
     //"resources/flat300_28_0.col.txt",  //OK
@@ -19,9 +19,9 @@ fun main() {
     //"resources/le450_25c.col.txt",     //OK
     //"resources/le450_25d.col.txt",    //OK
     //"resources/r250.5.col.txt",       //OK
-    //"resources/r1000.1c.col.txt",     //OK
+    "resources/r1000.1c.col.txt",     //OK
     //"resources/r1000.5.col.txt",      //OK
-    //"resources/C2000.5.col",  //Memory
+    //"resources/C2000.5.col",  // OK (Memory problem bf)
     //"resources/C4000.5.col",   //memory
     )
     for (fileName in fileNames) {
