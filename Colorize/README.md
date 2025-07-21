@@ -21,7 +21,7 @@ The `Main.kt` has a list with all instances in `resources` directory. Uncomment 
 
 ### Report of implementation
 
-(v1)[./report/Edge_Coloring_Graph_Implementation.pdf]
+- [v1](./report/Edge_Coloring_Graph_Implementation.pdf)
 
 ### Table with executions results
 
