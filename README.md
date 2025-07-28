@@ -1,6 +1,17 @@
 # 25Q2-computer-theory
 Repository with programs developed in the 2025 2nd quarter course Computer Theory in UFABC, Brazil.
 
+# Exercises
+
+## Colorize
+
+Implement an algorithm that solves the graph edges coloring problem.
+
+## Knapsack
+
+Run an algorithm to solve the fractional knapsack problem.
+
+
 # Members
 - Eduardo Pinhata - @edupinhata
 - Rafael Paniccia Cassetta - @drsigma
