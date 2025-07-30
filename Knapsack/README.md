@@ -14,3 +14,7 @@ O que deve ser feito:
    3.3 Suas opiniões sobre os resultados obtidos.
 
 3) submeter pelo Moodle a análise até às 23h50 do dia 01/08/2025.
+
+## Notes
+
+The biggest problem here is that there are some instances that are really big. 

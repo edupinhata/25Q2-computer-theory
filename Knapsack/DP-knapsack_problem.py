@@ -40,6 +40,8 @@
 
 # import time, os
 import time
+import os
+from datetime import datetime
 
 class Item:
     def __init__(self, index, value, weight):
@@ -123,42 +125,47 @@ def GetInstance(instance_data:str):
 
 def main():
     # dir_problem_instances = '\Knapsack_problem_instances\\'
+    date = datetime.today().strftime('%Y-%m-%d') 
+    filename = "Results_" + date
+    instancesPath = './Knapsack_problem_instances/ToProcess4/'
     
-    instance = 'Instancia_n3000_C4000.txt'
-    with open('Results','at') as fp:
-        n,C,profit,weight = GetInstance(instance)
-        fp.write('\nProblema da Mochila\n{}\n'.format(instance))
-        fp.write('n={}, C={}\n'.format(n,C))
-        # fp.write('retorno:{}\n'.format(profit))
-        # fp.write('peso:   {}\n'.format(weight))
+    instances = os.listdir(instancesPath)
+    for instance in instances:
+        with open(filename,'at') as fp:
+            instancePath = instancesPath + instance
+            n,C,profit,weight = GetInstance(instancePath)
+            fp.write('\nProblema da Mochila\n{}\n'.format(instance))
+            fp.write('n={}, C={}\n'.format(n,C))
+            # fp.write('retorno:{}\n'.format(profit))
+            # fp.write('peso:   {}\n'.format(weight))
 
-        start_time = time.time()
-        opt_sol_val_matrix = knapsack_matrix(n,profit,weight,C)
-        end_time = time.time()
-        elapsed_time_matrix = end_time - start_time
-    
-        start_time = time.time()
-        opt_sol_val_array = knapsack_array(n,profit,weight,C)
-        end_time = time.time()
-        elapsed_time_array = end_time - start_time
-        fp.write('Experimentos\n')
-        fp.write('  Implementacao em PD com matriz: valor otimo = {}, tempo de cpu = {:.5f}s\n'.
-            format(opt_sol_val_matrix,elapsed_time_matrix))
-        fp.write('  Implementacao em PD com vetor:  valor otimo = {}, tempo de cpu = {:5.5f}s\n'.
-            format(opt_sol_val_array,elapsed_time_array))
-            
-        # Fractional knapsack problem
-        items = []
-        for i in range(n):
-            items.append(Item(i,profit[i],weight[i]))  
-            # print(items[i].index, items[i].value,items[i].weight)
-        start_time = time.time()
-        opt_value_fracKnapsack, x = fractional_knapsack(items, C)  
-        end_time = time.time()
-        elapsed_time = end_time - start_time
-        fp.write('  Mochila fracionaria:            valor otimo = {:.2f}, tempo de cpu = {:.5}s\n'.
-            format(opt_value_fracKnapsack,elapsed_time))
-        # fp.write('  solucao otima: {}'.format(x))
+            start_time = time.time()
+            opt_sol_val_matrix = knapsack_matrix(n,profit,weight,C)
+            end_time = time.time()
+            elapsed_time_matrix = end_time - start_time
+        
+            start_time = time.time()
+            opt_sol_val_array = knapsack_array(n,profit,weight,C)
+            end_time = time.time()
+            elapsed_time_array = end_time - start_time
+            fp.write('Experimentos\n')
+            fp.write('  Implementacao em PD com matriz: valor otimo = {}, tempo de cpu = {:.5f}s\n'.
+                format(opt_sol_val_matrix,elapsed_time_matrix))
+            fp.write('  Implementacao em PD com vetor:  valor otimo = {}, tempo de cpu = {:5.5f}s\n'.
+                format(opt_sol_val_array,elapsed_time_array))
+                
+            # Fractional knapsack problem
+            items = []
+            for i in range(n):
+                items.append(Item(i,profit[i],weight[i]))  
+                # print(items[i].index, items[i].value,items[i].weight)
+            start_time = time.time()
+            opt_value_fracKnapsack, x = fractional_knapsack(items, C)  
+            end_time = time.time()
+            elapsed_time = end_time - start_time
+            fp.write('  Mochila fracionaria:            valor otimo = {:.2f}, tempo de cpu = {:.5}s\n'.
+                format(opt_value_fracKnapsack,elapsed_time))
+            # fp.write('  solucao otima: {}'.format(x))
     
 # driver code
 if __name__ == '__main__':
