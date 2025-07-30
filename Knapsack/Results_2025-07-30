@@ -1,0 +1,200 @@
+
+Problema da Mochila
+Instancia_n10000_C1500.txt
+n=10000, C=1500
+Experimentos
+  Implementacao em PD com matriz: valor otimo = 55193, tempo de cpu = 7.61330s
+  Implementacao em PD com vetor:  valor otimo = 55193, tempo de cpu = 3.41670s
+  Mochila fracionaria:            valor otimo = 55206.62, tempo de cpu = 0.0019772s
+
+Problema da Mochila
+Instancia_n1100_C150000.txt
+n=1100, C=150000
+Experimentos
+  Implementacao em PD com matriz: valor otimo = 448596, tempo de cpu = 86.43385s
+  Implementacao em PD com vetor:  valor otimo = 448596, tempo de cpu = 45.14091s
+  Mochila fracionaria:            valor otimo = 448596.00, tempo de cpu = 0.00037193s
+
+Problema da Mochila
+Instancia_n1500_C150000.txt
+n=1500, C=150000
+Experimentos
+  Implementacao em PD com matriz: valor otimo = 608185, tempo de cpu = 121.58674s
+  Implementacao em PD com vetor:  valor otimo = 608185, tempo de cpu = 63.24289s
+  Mochila fracionaria:            valor otimo = 608185.00, tempo de cpu = 0.00076509s
+
+Problema da Mochila
+Instancia_n2000_C1500.txt
+n=2000, C=1500
+Experimentos
+  Implementacao em PD com matriz: valor otimo = 37433, tempo de cpu = 1.40118s
+  Implementacao em PD com vetor:  valor otimo = 37433, tempo de cpu = 0.65548s
+  Mochila fracionaria:            valor otimo = 37453.74, tempo de cpu = 0.00052881s
+
+Problema da Mochila
+Instancia_n2000_C150000.txt
+n=2000, C=150000
+Experimentos
+  Implementacao em PD com matriz: valor otimo = 778480, tempo de cpu = 173.78803s
+  Implementacao em PD com vetor:  valor otimo = 778480, tempo de cpu = 83.44885s
+  Mochila fracionaria:            valor otimo = 778481.71, tempo de cpu = 0.001101s
+
+Problema da Mochila
+Instancia_n2500_C150000.txt
+n=2500, C=150000
+Experimentos
+  Implementacao em PD com matriz: valor otimo = 893315, tempo de cpu = 242.28051s
+  Implementacao em PD com vetor:  valor otimo = 893315, tempo de cpu = 105.23758s
+  Mochila fracionaria:            valor otimo = 893319.47, tempo de cpu = 0.0050437s
+
+Problema da Mochila
+Instancia_n3000_C1000.txt
+n=3000, C=1000
+Experimentos
+  Implementacao em PD com matriz: valor otimo = 31121, tempo de cpu = 1.97730s
+  Implementacao em PD com vetor:  valor otimo = 31121, tempo de cpu = 0.64480s
+  Mochila fracionaria:            valor otimo = 31156.04, tempo de cpu = 0.0013669s
+
+Problema da Mochila
+Instancia_n3000_C10000.txt
+n=3000, C=10000
+Experimentos
+  Implementacao em PD com matriz: valor otimo = 168402, tempo de cpu = 15.78101s
+  Implementacao em PD com vetor:  valor otimo = 168402, tempo de cpu = 7.25126s
+  Mochila fracionaria:            valor otimo = 168403.09, tempo de cpu = 0.00061893s
+
+Problema da Mochila
+Instancia_n3000_C150000.txt
+n=3000, C=150000
+Experimentos
+  Implementacao em PD com matriz: valor otimo = 985998, tempo de cpu = 295.85637s
+  Implementacao em PD com vetor:  valor otimo = 985998, tempo de cpu = 118.18132s
+  Mochila fracionaria:            valor otimo = 985999.71, tempo de cpu = 0.0045125s
+
+Problema da Mochila
+Instancia_n3000_C2000.txt
+n=3000, C=2000
+Experimentos
+  Implementacao em PD com matriz: valor otimo = 52393, tempo de cpu = 3.03347s
+  Implementacao em PD com vetor:  valor otimo = 52393, tempo de cpu = 1.35515s
+  Mochila fracionaria:            valor otimo = 52402.40, tempo de cpu = 0.0016356s
+
+Problema da Mochila
+Instancia_n3000_C20000.txt
+n=3000, C=20000
+Experimentos
+  Implementacao em PD com matriz: valor otimo = 276078, tempo de cpu = 31.31733s
+  Implementacao em PD com vetor:  valor otimo = 276078, tempo de cpu = 14.44983s
+  Mochila fracionaria:            valor otimo = 276082.24, tempo de cpu = 0.00067759s
+
+Problema da Mochila
+Instancia_n3000_C3000.txt
+n=3000, C=3000
+Experimentos
+  Implementacao em PD com matriz: valor otimo = 70119, tempo de cpu = 4.28633s
+  Implementacao em PD com vetor:  valor otimo = 70119, tempo de cpu = 2.07650s
+  Mochila fracionaria:            valor otimo = 70128.42, tempo de cpu = 0.00058842s
+
+Problema da Mochila
+Instancia_n3000_C4000.txt
+n=3000, C=4000
+Experimentos
+  Implementacao em PD com matriz: valor otimo = 86607, tempo de cpu = 5.90345s
+  Implementacao em PD com vetor:  valor otimo = 86607, tempo de cpu = 2.78380s
+  Mochila fracionaria:            valor otimo = 86624.57, tempo de cpu = 0.00057912s
+
+Problema da Mochila
+Instancia_n3000_C5000.txt
+n=3000, C=5000
+Experimentos
+  Implementacao em PD com matriz: valor otimo = 101929, tempo de cpu = 7.45555s
+  Implementacao em PD com vetor:  valor otimo = 101929, tempo de cpu = 3.50206s
+  Mochila fracionaria:            valor otimo = 101929.10, tempo de cpu = 0.00058317s
+
+Problema da Mochila
+Instancia_n3000_C50000.txt
+n=3000, C=50000
+Experimentos
+  Implementacao em PD com matriz: valor otimo = 515829, tempo de cpu = 85.37946s
+  Implementacao em PD com vetor:  valor otimo = 515829, tempo de cpu = 37.13215s
+  Mochila fracionaria:            valor otimo = 515831.24, tempo de cpu = 0.00098324s
+
+Problema da Mochila
+Instancia_n5000_C1500.txt
+n=5000, C=1500
+Experimentos
+  Implementacao em PD com matriz: valor otimo = 46829, tempo de cpu = 3.63434s
+  Implementacao em PD com vetor:  valor otimo = 46829, tempo de cpu = 1.74484s
+  Mochila fracionaria:            valor otimo = 46843.56, tempo de cpu = 0.00099039s
+
+Problema da Mochila
+Instancia_n6000_C1500.txt
+n=6000, C=1500
+Experimentos
+  Implementacao em PD com matriz: valor otimo = 48883, tempo de cpu = 4.37722s
+  Implementacao em PD com vetor:  valor otimo = 48883, tempo de cpu = 2.01256s
+  Mochila fracionaria:            valor otimo = 48887.00, tempo de cpu = 0.0011778s
+
+Problema da Mochila
+Instancia_n7000_C1500.txt
+n=7000, C=1500
+Experimentos
+  Implementacao em PD com matriz: valor otimo = 50970, tempo de cpu = 4.91085s
+  Implementacao em PD com vetor:  valor otimo = 50970, tempo de cpu = 2.35294s
+  Mochila fracionaria:            valor otimo = 50995.88, tempo de cpu = 0.0040352s
+
+Problema da Mochila
+Instancia_n8000_C1500.txt
+n=8000, C=1500
+Experimentos
+  Implementacao em PD com matriz: valor otimo = 51691, tempo de cpu = 5.94532s
+  Implementacao em PD com vetor:  valor otimo = 51691, tempo de cpu = 2.72513s
+  Mochila fracionaria:            valor otimo = 51704.71, tempo de cpu = 0.0015993s
+
+Problema da Mochila
+Instancia_n9000_C1500.txt
+n=9000, C=1500
+Experimentos
+  Implementacao em PD com matriz: valor otimo = 52049, tempo de cpu = 6.43578s
+  Implementacao em PD com vetor:  valor otimo = 52049, tempo de cpu = 3.06123s
+  Mochila fracionaria:            valor otimo = 52069.43, tempo de cpu = 0.0017693s
+
+Problema da Mochila
+Instancia_n11000_C1500.txt
+n=11000, C=1500
+Experimentos
+  Implementacao em PD com matriz: valor otimo = 54502, tempo de cpu = 8.28845s
+  Implementacao em PD com vetor:  valor otimo = 54502, tempo de cpu = 3.68849s
+  Mochila fracionaria:            valor otimo = 54510.61, tempo de cpu = 0.0022068s
+
+Problema da Mochila
+Instancia_n12000_C1500.txt
+n=12000, C=1500
+Experimentos
+  Implementacao em PD com matriz: valor otimo = 54552, tempo de cpu = 8.72211s
+  Implementacao em PD com vetor:  valor otimo = 54552, tempo de cpu = 4.08262s
+  Mochila fracionaria:            valor otimo = 54565.16, tempo de cpu = 0.0025287s
+
+Problema da Mochila
+Instancia_n13000_C1500.txt
+n=13000, C=1500
+Experimentos
+  Implementacao em PD com matriz: valor otimo = 55316, tempo de cpu = 9.45511s
+  Implementacao em PD com vetor:  valor otimo = 55316, tempo de cpu = 4.35835s
+  Mochila fracionaria:            valor otimo = 55320.70, tempo de cpu = 0.0027089s
+
+Problema da Mochila
+Instancia_n14000_C1500.txt
+n=14000, C=1500
+Experimentos
+  Implementacao em PD com matriz: valor otimo = 56018, tempo de cpu = 10.54699s
+  Implementacao em PD com vetor:  valor otimo = 56018, tempo de cpu = 5.00981s
+  Mochila fracionaria:            valor otimo = 56026.03, tempo de cpu = 0.00402s
+
+Problema da Mochila
+Instancia_n15000_C1500.txt
+n=15000, C=1500
+Experimentos
+  Implementacao em PD com matriz: valor otimo = 57405, tempo de cpu = 11.08957s
+  Implementacao em PD com vetor:  valor otimo = 57405, tempo de cpu = 5.07784s
+  Mochila fracionaria:            valor otimo = 57414.88, tempo de cpu = 0.003191s
