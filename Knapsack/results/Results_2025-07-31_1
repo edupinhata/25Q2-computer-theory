@@ -1,0 +1,16 @@
+
+Problema da Mochila
+Instancia_n50000_C1500.txt
+n=50000, C=1500
+Experimentos
+  Implementacao em PD com matriz: valor otimo = 71844, tempo de cpu = 29.73951s
+  Implementacao em PD com vetor:  valor otimo = 71844, tempo de cpu = 17.51588s
+  Mochila fracionaria:            valor otimo = 71849.36, tempo de cpu = 0.0084422s
+
+Problema da Mochila
+Instancia_n100000_C1500.txt
+n=100000, C=1500
+Experimentos
+  Implementacao em PD com matriz: valor otimo = 82273, tempo de cpu = 59.20398s
+  Implementacao em PD com vetor:  valor otimo = 82273, tempo de cpu = 32.91501s
+  Mochila fracionaria:            valor otimo = 82281.95, tempo de cpu = 0.020149s

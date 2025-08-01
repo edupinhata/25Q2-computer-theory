@@ -127,7 +127,7 @@ def main():
     # dir_problem_instances = '\Knapsack_problem_instances\\'
     date = datetime.today().strftime('%Y-%m-%d') 
     filename = "Results_" + date
-    instancesPath = './Knapsack_problem_instances/ToProcess4/'
+    instancesPath = './Knapsack_problem_instances/ToProcess6/'
     
     instances = os.listdir(instancesPath)
     for instance in instances:
