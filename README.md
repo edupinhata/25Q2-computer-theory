@@ -21,6 +21,7 @@ Codes to be used in [turingmachine.io](https://turingmachine.io/):
 
 - Flip bit: https://gist.github.com/edupinhata/2130004aff34539c5479aeb2d68f5cc0
 - Unary Addition: https://gist.github.com/edupinhata/54cd039a64e4353dc1fc183f9fd17e94
+- Data Copy: https://gist.github.com/edupinhata/18c38c25863220888c09640ad825e1d2
 
 # Members
 - Eduardo Pinhata - @edupinhata
