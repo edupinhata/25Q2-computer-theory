@@ -13,7 +13,11 @@ Run an algorithm to solve the fractional knapsack problem.
 
 ## Turing Machines
 
+### Material
 [Slide Korea](https://plrg.korea.ac.kr/courses/cose215/2023_1/slides/lec22.pdf)
+
+### Examples
+Codes to be used in [turingmachine.io](https://turingmachine.io/):
 
 - Flip bit: https://gist.github.com/edupinhata/2130004aff34539c5479aeb2d68f5cc0
 - Unary Addition: https://gist.github.com/edupinhata/54cd039a64e4353dc1fc183f9fd17e94
