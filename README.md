@@ -14,6 +14,7 @@ Run an algorithm to solve the fractional knapsack problem.
 ## Turing Machines
 
 - Flip bit: https://gist.github.com/edupinhata/2130004aff34539c5479aeb2d68f5cc0
+- Unary Addition: https://gist.github.com/edupinhata/54cd039a64e4353dc1fc183f9fd17e94
 
 # Members
 - Eduardo Pinhata - @edupinhata
