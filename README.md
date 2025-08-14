@@ -14,7 +14,7 @@ Run an algorithm to solve the fractional knapsack problem.
 ## Turing Machines
 
 ### Material
-[Slide Korea](https://plrg.korea.ac.kr/courses/cose215/2023_1/slides/lec22.pdf)
+- [Slide Korea](https://plrg.korea.ac.kr/courses/cose215/2023_1/slides/lec22.pdf)
 
 ### Examples
 Codes to be used in [turingmachine.io](https://turingmachine.io/):
