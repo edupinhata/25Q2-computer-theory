@@ -11,6 +11,9 @@ Implement an algorithm that solves the graph edges coloring problem.
 
 Run an algorithm to solve the fractional knapsack problem.
 
+## Turing Machines
+
+- Flip bit: https://gist.github.com/edupinhata/2130004aff34539c5479aeb2d68f5cc0
 
 # Members
 - Eduardo Pinhata - @edupinhata
