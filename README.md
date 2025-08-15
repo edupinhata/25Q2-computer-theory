@@ -23,8 +23,6 @@ Codes to be used in [turingmachine.io](https://turingmachine.io/):
 - [Unary Addition](https://turingmachine.io/?import-gist=54cd039a64e4353dc1fc183f9fd17e94)
 - [Data Copy](https://turingmachine.io/?import-gist=18c38c25863220888c09640ad825e1d2)
 
-# Members
-- Eduardo Pinhata - @edupinhata
 
 # References
 - [Horowitz, E.Fundamentals of Coputer Algorithms](https://kailash392.wordpress.com/wp-content/uploads/2019/02/fundamentalsof-computer-algorithms-by-ellis-horowitz.pdf)
