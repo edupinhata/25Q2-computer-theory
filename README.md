@@ -22,6 +22,7 @@ Codes to be used in [turingmachine.io](https://turingmachine.io/):
 - [Flip bit](https://turingmachine.io/?import-gist=2130004aff34539c5479aeb2d68f5cc0)
 - [Unary Addition](https://turingmachine.io/?import-gist=54cd039a64e4353dc1fc183f9fd17e94)
 - [Data Copy](https://turingmachine.io/?import-gist=18c38c25863220888c09640ad825e1d2)
+- [Sort 0s and 1s](https://turingmachine.io/?import-gist=eb2bd6effa3088aacc7873cbdd619d0f)
 
 
 # References
